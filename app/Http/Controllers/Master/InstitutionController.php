@@ -185,7 +185,7 @@ class InstitutionController extends Controller
                 DB::beginTransaction();
 
                 // Query Store Institution
-                $institution_update = Institution::where('id', $id)->create([
+                $institution_update = Institution::where('id', $id)->update([
                     'name' => $request->name,
                     'parent_id' => $request->institution,
                     'level' => $request->level,

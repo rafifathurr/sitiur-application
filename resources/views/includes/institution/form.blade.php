@@ -8,3 +8,6 @@
         @endforeach
     </select>
 </div>
+<script>
+    $('#institution_form').select2();
+</script>
