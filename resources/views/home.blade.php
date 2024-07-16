@@ -328,7 +328,7 @@
                     </div>
                     <div class="card rounded-5 my-3">
                         <div class="card-header bg-gray-200">
-                            <h3 class="font-weight-bold text-center my-1">KASI KEMITRAAN SUBDIT DIKMAS
+                            <h3 class="font-weight-bold text-center my-1">KEMITRAAN SUBDIT DIKMAS
                                 KORLANTAS POLRI</h3>
                         </div>
                         <div class="card-body bg-gray-100">
@@ -397,7 +397,7 @@
                         <div class="col-md-12 py-5">
                             <div class="card rounded-5 border-0">
                                 <div class="card-body text-center bg-gray-100 p-0">
-                                    <h4 class="font-weight-bold py-2">Struktur Organisasi <br> KASI KEMITRAAN SUBDIT DIKMAS
+                                    <h4 class="font-weight-bold py-2">Struktur Organisasi <br> KEMITRAAN SUBDIT DIKMAS
                                         KORLANTAS
                                         POLRI</h4>
                                     <img src="{{ asset('img/kasi-kemitraan-stuktur.png') }}"
