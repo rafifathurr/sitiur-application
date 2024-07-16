@@ -132,7 +132,7 @@ class GiatKampungTertibController extends Controller
                 if ($giat_kampung_tertib_update) {
                     DB::commit();
                     return redirect()
-                        ->route('archieve.giat-anev.show', ['id' => $giat_kampung_tertib->id])
+                        ->route('archieve.giat-kampung-tertib.show', ['id' => $giat_kampung_tertib->id])
                         ->with(['success' => 'Berhasil Menambahkan Giat Kampung Tertib']);
                 } else {
                     // Failed and Rollback
