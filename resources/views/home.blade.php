@@ -453,8 +453,17 @@
                             </a>
                         </div>
                     @else
+                        <div class="row">
+                            <div class="col-md-12 py-3">
+                                <div class="card rounded-5 border-0">
+                                    <div class="card-body text-center p-0">
+                                        <img src="{{ asset('img/image-not-found.jpg') }}"
+                                            class="rounded-5 border border-1-grey" width="50%" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
-
                 </div>
             </div>
         </div>
