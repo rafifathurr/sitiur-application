@@ -47,5 +47,17 @@
             color: white;
             text-align: center;
         }
+
+        .select2-container {
+            display: block !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: calc(2.25rem + 2px) !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            right: 3px !important;
+        }
     </style>
 </head>

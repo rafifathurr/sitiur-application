@@ -12,6 +12,7 @@
                     @method('patch')
                     <input type="hidden" id="level_record"
                         value="{{ !is_null($giat_anev->institution_id) ? $giat_anev->institution->level : $giat_anev->institution_id }}">
+                    <input type="hidden" id="institution_record" value="{{ $giat_anev->institution_id }}">
                     <div class="form-group">
                         <label for="number_giat">Nomor <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="number_giat" name="number_giat" placeholder="Nomor"
@@ -114,7 +115,7 @@
                         cache: false,
                         success: function(data) {
                             $('.institution_form').html(data);
-                            if (onCreate && $('#type') == 1) {
+                            if (onCreate) {
                                 $('#institution').val($('#institution_record').val()).trigger('change');
                                 onCreate = false;
                             }
