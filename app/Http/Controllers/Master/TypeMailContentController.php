@@ -64,7 +64,7 @@ class TypeMailContentController extends Controller
             // Validation Field
             $name_check = TypeMailContent::whereNull('deleted_at')
                 ->where('name', $request->name)
-                ->orWhere('name', strtolower($request->name))
+                ->where('name', strtolower($request->name))
                 ->first();
 
             // Check Validation Field
@@ -134,7 +134,7 @@ class TypeMailContentController extends Controller
             // Validation Field
             $name_check = TypeMailContent::whereNull('deleted_at')
                 ->where('name', $request->name)
-                ->orWhere('name', strtolower($request->name))
+                ->where('name', strtolower($request->name))
                 ->where('id', '!=', $id)
                 ->first();
 

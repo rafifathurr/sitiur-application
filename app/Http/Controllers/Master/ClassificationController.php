@@ -64,7 +64,7 @@ class ClassificationController extends Controller
             // Validation Field
             $name_check = Classification::whereNull('deleted_at')
                 ->where('name', $request->name)
-                ->orWhere('name', strtolower($request->name))
+                ->where('name', strtolower($request->name))
                 ->first();
 
             // Check Validation Field
@@ -134,7 +134,7 @@ class ClassificationController extends Controller
             // Validation Field
             $name_check = Classification::whereNull('deleted_at')
                 ->where('name', $request->name)
-                ->orWhere('name', strtolower($request->name))
+                ->where('name', strtolower($request->name))
                 ->where('id', '!=', $id)
                 ->first();
 
