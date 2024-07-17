@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="text-right mt-5">
-                        <a href="{{ route('archieve.incoming-mail.index') }}" class="btn btn-sm btn-danger rounded-5">
+                        <a href="{{ route('archieve.statement-letter.index') }}" class="btn btn-sm btn-danger rounded-5">
                             <i class="fas fa-arrow-left"></i>
                             Kembali
                         </a>

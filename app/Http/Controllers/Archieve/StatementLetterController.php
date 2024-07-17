@@ -182,7 +182,7 @@ class StatementLetterController extends Controller
     public function edit(string $id)
     {
         try {
-            $statement_letter = StatementLetter::with(['classification', 'typeMailContent', 'institution.parent'])->findOrFail($id);
+            $statement_letter = StatementLetter::with(['institution.parent'])->findOrFail($id);
             $data['statement_letter'] = $statement_letter;
             $data['levels'] = Institution::getLevel();
             return view('archieve.statement_letter.edit', $data);
