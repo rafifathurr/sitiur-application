@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>SITIUR KORLANTAS</title>
+    <title>APDA KORLANTAS</title>
 
     <!-- vendor css -->
     <link href="{{ asset('lib/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
@@ -28,36 +28,4 @@
     <!-- CSRF -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <style>
-        .blurred-bg {
-            position: relative;
-            width: 100%;
-            height: 90vh;
-            background-image: url('img/bg-korlantas-3.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: blur(7px) brightness(60%);
-        }
-
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-        }
-
-        .select2-container {
-            display: block !important;
-        }
-
-        .select2-container--default .select2-selection--single {
-            height: calc(2.25rem + 2px) !important;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            right: 3px !important;
-        }
-    </style>
 </head>

@@ -4,7 +4,7 @@
         <div class="blurred-bg"></div>
         <div class="content">
             <img src="{{ asset('img/korlantas-mabes.png') }}" alt="" width="50%">
-            <h1 class="font-weight-bold mt-2">Selamat Datang di Situs <br> SITIUR KORLANTAS</h1>
+            <h1 class="font-weight-bold mt-2">Selamat Datang di Situs <br> APDA KORLANTAS</h1>
         </div>
     </div>
     <div class="az-content az-content-dashboard">
@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <h3 class="font-weight-bold text-center">KAKORLANTAS</h3>
-                                <h5 class="text-center">Irjen. Pol. Dr. Drs. Aan Suhanan,
+                                <h5 class="text-center">Inspektur Jenderal Polisi<br>Dr. Drs. Aan Suhanan,
                                     M.Si.</h5>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <h3 class="font-weight-bold text-center">DIRKAMSEL</h3>
-                                <h5 class="text-center">Brigjen. Pol. Dr. Bakharuddin Muhammad Syah,
+                                <h5 class="text-center">Brigadir Jenderal Polisi<br>Dr. Bakharuddin Muhammad Syah,
                                     S.H.,
                                     S.I.K., M.Si.</h5>
                             </div>
@@ -46,8 +46,8 @@
                                     height="326px" class="rounded-5 border border-1-grey">
                             </div>
                             <div class="col-md-12 mt-3">
-                                <h3 class="font-weight-bold text-center">KASUBDIT DIKMAS</h3>
-                                <h5 class="text-center">KOMBES POL ARMAN ACHDIAT, S.I.K., M.Si.</h5>
+                                <h3 class="font-weight-bold text-center">KASUBDITDIKMAS</h3>
+                                <h5 class="text-center">Komisaris Besar Polisi<br>Arhman Achdiat, S.I.K., M.Si.</h5>
                             </div>
                         </div>
                     </div>

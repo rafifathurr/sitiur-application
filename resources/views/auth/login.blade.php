@@ -8,8 +8,8 @@
             <div class="az-signin-header mb-3">
                 <div class="text-center mb-3">
                     <img src="{{ asset('img/korlantas-mabes.png') }}" width="80%" alt="">
-                    <h3 class="mb-0">SITIUR KORLANTAS</h3>
-                    <small class="font-weight-bold">SISTEM INTEGRASI URMIN</small>
+                    <h3 class="mb-0">APDA KORLANTAS</h3>
+                    <small class="font-weight-bold">APLIKASI PENCARIAN DATA</small>
                 </div>
 
                 <form action="{{ route('authentication') }}" method="post" class="py-1">

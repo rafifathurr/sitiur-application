@@ -2,7 +2,7 @@
     <div class="container">
         <div class="az-header-left">
             <a href="{{ url('/') }}" class="text-dark font-weight-bold h4 mx-auto mb-0"><img
-                    src="{{ asset('img/korlantas-mabes.png') }}" width="15%" class="" alt="">SITIUR
+                    src="{{ asset('img/korlantas-mabes.png') }}" width="15%" class="" alt="">APDA
                 KORLANTAS</a>
             <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
         </div>
@@ -10,7 +10,7 @@
         <div class="az-header-menu">
             <div class="az-header-menu-header">
                 <a href="{{ url('/') }}" class="text-dark font-weight-bold mx-auto"><img
-                        src="{{ asset('img/korlantas-mabes.png') }}" width="15%" class="" alt="">SITIUR
+                        src="{{ asset('img/korlantas-mabes.png') }}" width="15%" class="" alt="">APDA
                     KORLANTAS</a>
                 <a href="" class="close">&times;</a>
             </div>
