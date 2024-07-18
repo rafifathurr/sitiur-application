@@ -17,37 +17,55 @@
                 </div>
                 <div class="my-5">
                     <div class="row">
-                        <div class="col-md-4 my-5">
-                            <div class="col-md-12 mx-auto text-center">
-                                <img src="{{ asset('img/irjen-aan-suhanan.jpg') }}" alt="" width="75%"
-                                    height="326px" class="rounded-5 border border-1-grey">
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <h3 class="font-weight-bold text-center">KAKORLANTAS</h3>
-                                <h5 class="text-center">Inspektur Jenderal Polisi<br>Dr. Drs. Aan Suhanan,
-                                    M.Si.</h5>
-                            </div>
-                        </div>
-                        <div class="col-md-4 my-5">
-                            <div class="col-md-12 mx-auto text-center">
-                                <img src="{{ asset('img/brigjen-bakharuddin-dirkamsel.png') }}" alt=""
-                                    width="75%" height="326px" class="rounded-5 border border-1-grey">
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <h3 class="font-weight-bold text-center">DIRKAMSEL</h3>
-                                <h5 class="text-center">Brigadir Jenderal Polisi<br>Dr. Bakharuddin Muhammad Syah,
-                                    S.H.,
-                                    S.I.K., M.Si.</h5>
+                        <div class="col-md-12 my-4">
+                            <div class="col-md-4 mx-auto">
+                                <div class="col-md-12 mx-auto text-center">
+                                    <img src="{{ asset('img/irjen-aan-suhanan.jpg') }}" alt="" width="85%"
+                                        height="326px" class="rounded-5 border border-1-grey">
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <h3 class="font-weight-bold text-center">KAKORLANTAS</h3>
+                                    <h5 class="text-center">Inspektur Jenderal Polisi<br>Dr. Drs. Aan Suhanan,
+                                        M.Si.</h5>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 my-5">
-                            <div class="col-md-12 mx-auto text-center">
-                                <img src="{{ asset('img/kombes-arman-achdiat.jpg') }}" alt="" width="75%"
-                                    height="326px" class="rounded-5 border border-1-grey">
+                        <div class="col-md-12 my-4">
+                            <div class="col-md-4 mx-auto">
+                                <div class="col-md-12 mx-auto text-center">
+                                    <img src="{{ asset('img/brigjen-bakharuddin-dirkamsel.png') }}" alt=""
+                                        width="85%" height="326px" class="rounded-5 border border-1-grey">
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <h3 class="font-weight-bold text-center">DIRKAMSEL</h3>
+                                    <h5 class="text-center">Brigadir Jenderal Polisi<br>Dr. Bakharuddin Muhammad Syah,
+                                        S.H.,
+                                        S.I.K., M.Si.</h5>
+                                </div>
                             </div>
-                            <div class="col-md-12 mt-3">
-                                <h3 class="font-weight-bold text-center">KASUBDITDIKMAS</h3>
-                                <h5 class="text-center">Komisaris Besar Polisi<br>Arhman Achdiat, S.I.K., M.Si.</h5>
+                        </div>
+                        <div class="col-md-6 my-5">
+                            <div class="col-md-8 mx-auto">
+                                <div class="col-md-12 mx-auto text-center">
+                                    <img src="{{ asset('img/kombes-arman-achdiat.jpg') }}" alt="" width="80%"
+                                        height="326px" class="rounded-5 border border-1-grey">
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <h4 class="font-weight-bold text-center">KASUBDITDIKMAS</h4>
+                                    <h5 class="text-center">Komisaris Besar Polisi<br>Arman Achdiat, S.I.K., M.Si.</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-5">
+                            <div class="col-md-8 mx-auto">
+                                <div class="col-md-12 mx-auto text-center">
+                                    <img src="{{ asset('img/kombes-arief-bahtiar.png') }}" alt="" width="80%"
+                                        height="326px" class="rounded-5 border border-1-grey">
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <h4 class="font-weight-bold text-center">KASI<br>PENDIDIKAN DAN PENERANGAN</h4>
+                                    <h5 class="text-center">Komisaris Besar Polisi<br>Arief Bahtiar, S.I.K., M.M.</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,7 +81,7 @@
                         </h2>
                     </div>
                     <div class="col-md-12 text-center">
-                        <img src="{{ asset('img/korlantas-mabes.png') }}" width="35%" alt="">
+                        <img src="{{ asset('img/korlantas-mabes.png') }}" width="40%" alt="">
                     </div>
                     <div class="row">
                         <div class="col-md-6 my-3">
@@ -139,7 +157,7 @@
                         </h2>
                     </div>
                     <div class="col-md-12 text-center">
-                        <img src="{{ asset('img/korlantas-mabes.png') }}" width="35%" alt="">
+                        <img src="{{ asset('img/korlantas-mabes.png') }}" width="40%" alt="">
                     </div>
                     <div class="card rounded-5 my-3">
                         <div class="card-header bg-gray-200">
