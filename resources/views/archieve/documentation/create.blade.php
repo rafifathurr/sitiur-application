@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Nama Dokumentasi" value="{{ old('name') }}" required>
+                            placeholder="Nama" value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
