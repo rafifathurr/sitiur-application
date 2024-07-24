@@ -99,6 +99,12 @@ class GiatAnevController extends Controller
                 $path = 'public/archieve/giat-anev';
                 $path_store = 'storage/archieve/giat-anev';
 
+                // Check Exsisting Path
+                if (!Storage::exists($path)) {
+                    // Create new Path Directory
+                    Storage::makeDirectory($path);
+                }
+
                 $attachment_collection = [];
 
                 foreach ($request->file('attachment') as $index => $attachment) {

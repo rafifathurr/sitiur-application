@@ -102,6 +102,12 @@ class MouController extends Controller
                 $path = 'public/archieve/mou';
                 $path_store = 'storage/archieve/mou';
 
+                // Check Exsisting Path
+                if (!Storage::exists($path)) {
+                    // Create new Path Directory
+                    Storage::makeDirectory($path);
+                }
+
                 $attachment_collection = [];
 
                 foreach ($request->file('attachment') as $index => $attachment) {
@@ -241,7 +247,6 @@ class MouController extends Controller
                     $mou_attachment = json_decode($mou->attachment);
 
                     foreach ($mou_attachment as $last_attachment) {
-
                         // File Last Record
                         $last_attachment_exploded = explode('/', $last_attachment);
                         $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];

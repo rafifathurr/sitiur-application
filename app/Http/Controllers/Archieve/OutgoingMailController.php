@@ -111,6 +111,12 @@ class OutgoingMailController extends Controller
                 $path = 'public/archieve/outgoing-mail';
                 $path_store = 'storage/archieve/outgoing-mail';
 
+                // Check Exsisting Path
+                if (!Storage::exists($path)) {
+                    // Create new Path Directory
+                    Storage::makeDirectory($path);
+                }
+
                 $attachment_collection = [];
 
                 foreach ($request->file('attachment') as $index => $attachment) {
