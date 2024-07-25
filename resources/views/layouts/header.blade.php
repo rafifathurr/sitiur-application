@@ -21,7 +21,16 @@
                 </li>
                 @if (Illuminate\Support\Facades\Auth::check())
                     @if (Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
-                        <li class="nav-item @if (Route::currentRouteName() == 'archieve.documentation.index' || Route::currentRouteName() == 'archieve.mou.index') active show @endif">
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), [
+                                'archieve.mou.index',
+                                'archieve.giat-kampung-tertib.index',
+                                'archieve.giat-anev.index',
+                                'archieve.incoming-mail.index',
+                                'archieve.outgoing-mail.index',
+                                'archieve.statement-letter.index',
+                                'archieve.documentation.index',
+                                'archieve.gallery.index',
+                            ])) active show @endif">
                             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Arsip
                             </a>
                             <nav class="az-menu-sub">
@@ -32,15 +41,18 @@
                                     Diseminasi</a>
                                 <a href="{{ route('archieve.incoming-mail.index') }}" class="nav-link">Surat Masuk</a>
                                 <a href="{{ route('archieve.outgoing-mail.index') }}" class="nav-link">Surat Keluar</a>
-                                <a href="{{ route('archieve.statement-letter.index') }}" class="nav-link">Surat Pernyataan</a>
+                                <a href="{{ route('archieve.statement-letter.index') }}" class="nav-link">Surat
+                                    Pernyataan</a>
                                 <a href="{{ route('archieve.documentation.index') }}" class="nav-link">Dokumentasi
                                     Video</a>
                                 <a href="{{ route('archieve.gallery.index') }}" class="nav-link">Galeri</a>
                             </nav>
                         </li>
-                        <li class="nav-item @if (Route::currentRouteName() == 'master.classification.index' ||
-                                Route::currentRouteName() == 'master.type-mail-content.index' ||
-                                Route::currentRouteName() == 'master.institution.index') active show @endif">
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), [
+                                'master.classification.index',
+                                'master.type-mail-content.index',
+                                'master.institution.index',
+                            ])) active show @endif">
                             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Master
                             </a>
                             <nav class="az-menu-sub">
@@ -57,7 +69,16 @@
                                 User</a>
                         </li>
                     @elseif(Illuminate\Support\Facades\Auth::user()->hasRole('user'))
-                        <li class="nav-item @if (Route::currentRouteName() == 'archieve.documentation.index' || Route::currentRouteName() == 'archieve.mou.index') active show @endif">
+                        <li class="nav-item @if (in_array(Route::currentRouteName(), [
+                                'archieve.mou.index',
+                                'archieve.giat-kampung-tertib.index',
+                                'archieve.giat-anev.index',
+                                'archieve.incoming-mail.index',
+                                'archieve.outgoing-mail.index',
+                                'archieve.statement-letter.index',
+                                'archieve.documentation.index',
+                                'archieve.gallery.index',
+                            ])) active show @endif">
                             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Arsip
                             </a>
                             <nav class="az-menu-sub">
@@ -106,7 +127,8 @@
                         </div>
                         <!-- az-header-profile -->
 
-                        <a href="{{ route('logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i>
+                        <a href="{{ route('logout') }}" class="dropdown-item"><i
+                                class="typcn typcn-power-outline"></i>
                             Logout</a>
                     </div>
                     <!-- dropdown-menu -->
