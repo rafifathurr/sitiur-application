@@ -12,8 +12,8 @@
                     @method('patch')
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Nama" value="{{ $gallery->name }}" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
+                            value="{{ $gallery->name }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label for="attachment">Lampiran Foto <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="video/*">
+                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="image/*">
                         <p class="text-danger py-1">* .png .jpg .jpeg</p>
                         <a target="_blank" href="{{ asset($gallery->attachment) }}"><i class="fas fa-download"></i>
                             Lampiran Foto</a>
