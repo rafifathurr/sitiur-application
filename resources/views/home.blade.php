@@ -387,8 +387,10 @@
                             <div class="card rounded-5 border-0">
                                 <div class="card-body text-center bg-gray-100 p-0">
                                     <h4 class="font-weight-bold py-2">Struktur Organisasi <br> KORLANTAS POLRI</h4>
-                                    <img src="{{ asset('img/korlantas-struktur.png') }}"
-                                        class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    <a href="{{ asset('img/korlantas-struktur.png') }}">
+                                        <img src="{{ asset('img/korlantas-struktur.png') }}"
+                                            class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -397,8 +399,10 @@
                                 <div class="card-body text-center bg-gray-100 p-0">
                                     <h4 class="font-weight-bold py-2">Struktur Organisasi <br> DIRKAMSEL KORLANTAS
                                         POLRI</h4>
-                                    <img src="{{ asset('img/dirkamsel-struktur.png') }}"
-                                        class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    <a href="{{ asset('img/dirkamsel-struktur.png') }}">
+                                        <img src="{{ asset('img/dirkamsel-struktur.png') }}"
+                                            class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -407,8 +411,10 @@
                                 <div class="card-body text-center bg-gray-100 p-0">
                                     <h4 class="font-weight-bold py-2">Struktur Organisasi <br> SUBDIT DIKMAS KORLANTAS
                                         POLRI</h4>
-                                    <img src="{{ asset('img/subditdikmas-struktur.jpeg') }}"
-                                        class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    <a href="{{ asset('img/subditdikmas-struktur.jpeg') }}">
+                                        <img src="{{ asset('img/subditdikmas-struktur.jpeg') }}"
+                                            class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -418,8 +424,10 @@
                                     <h4 class="font-weight-bold py-2">Struktur Organisasi <br> KEMITRAAN SUBDIT DIKMAS
                                         KORLANTAS
                                         POLRI</h4>
-                                    <img src="{{ asset('img/kasi-kemitraan-stuktur.png') }}"
-                                        class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    <a href="{{ asset('img/kasi-kemitraan-stuktur.png') }}">
+                                        <img src="{{ asset('img/kasi-kemitraan-stuktur.png') }}"
+                                            class="rounded-5 border border-1-grey" width="90%" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
