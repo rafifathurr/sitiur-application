@@ -15,7 +15,15 @@ class Controller extends BaseController
     {
         if ($global == 1) {
             $data['levels'] = Institution::getLevel();
-            $data['institutions'] = Institution::whereNull('deleted_at')->where('level', $level)->get();
+
+            if ($level == 1) {
+                $data['institutions'] = Institution::whereNull('deleted_at')
+                    ->whereIn('level', [$level, 0])
+                    ->get();
+            } else {
+                $data['institutions'] = Institution::whereNull('deleted_at')->where('level', $level)->get();
+            }
+
             return view('includes.global.institution_form', $data);
         } else {
             $data['levels'] = Institution::getLevel();
