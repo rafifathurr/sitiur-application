@@ -43,7 +43,7 @@ class GalleryController extends Controller
                 return date('d F Y', strtotime($data->date));
             })
             ->addColumn('attachment', function ($data) {
-                return '<img width="100%" src="' . asset($data->attachment) . '" alt="" class="rounded-5 border border-1-default">';
+                return '<a href="' . asset($data->attachment) . '"><img width="100%" src="' . asset($data->attachment) . '" alt="" class="rounded-5 border border-1-default"></a>';
             })
             ->addColumn('action', function ($data) {
                 $btn_action = '<a href="' . route('archieve.gallery.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
