@@ -28,8 +28,10 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Lampiran Foto</label>
                         <div class="col-sm-9 col-form-label">
-                            <img src="{{ asset($gallery->attachment) }}" width="30%"
-                                class="rounded-5 border border-1-grey" alt="">
+                            <a href="{{ asset($gallery->attachment) }}">
+                                <img src="{{ asset($gallery->attachment) }}" width="30%"
+                                    class="rounded-5 border border-1-grey" alt="">
+                            </a>
                         </div>
                     </div>
                     <div class="p-3 border border-1 rounded-5">
