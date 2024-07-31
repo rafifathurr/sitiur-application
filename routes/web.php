@@ -62,7 +62,7 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::group(['controller' => TypeMailContentController::class, 'prefix' => 'type-mail-content', 'as' => 'type-mail-content.'], function () {
             Route::get('datatable', 'dataTable')->name('dataTable');
         });
-        Route::resource('type-mail-content', TypeMailContentController::class)->parameters(['type-mail-content' => 'id']);
+        Route::resource('type-mail-content', TypeMailContentController::class, ['except' => ['store']])->parameters(['type-mail-content' => 'id']);
 
         /**
          * Route Classification Module
@@ -83,11 +83,6 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 
 /**
- * User Route Access
- */
-Route::group(['middleware' => ['role:user']], function () {});
-
-/**
  * Admin and User Route Access
  */
 Route::group(['middleware' => ['role:admin|user']], function () {
@@ -99,6 +94,11 @@ Route::group(['middleware' => ['role:admin|user']], function () {
          * Institution Module (Only Store Record)
          */
         Route::resource('institution', InstitutionController::class, ['except' => ['index', 'create', 'show', 'edit', 'update', 'destroy']])->parameters(['institution' => 'id']);
+
+        /**
+         * Route Type Mail Content Module
+         */
+        Route::resource('type-mail-content', TypeMailContentController::class, ['except' => ['index', 'create', 'show', 'edit', 'update', 'destroy']])->parameters(['type-mail-content' => 'id']);
     });
 
     /**

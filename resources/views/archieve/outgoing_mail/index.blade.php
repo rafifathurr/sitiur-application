@@ -22,7 +22,7 @@
                                     <th>Klasifikasi</th>
                                     <th>Jenis Isi Surat</th>
                                     <th>Instansi</th>
-                                    <th>Nama</th>
+                                    <th>Judul Surat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

@@ -15,8 +15,8 @@
                             value="{{ old('number') }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="name">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
+                        <label for="name">Judul Surat <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Judul Surat"
                             value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group">
@@ -37,15 +37,21 @@
                     </div>
                     <div class="form-group">
                         <label for="type_mail_content">Jenis Isi Surat <span class="text-danger">*</span></label>
-                        <select class="form-control" id="type_mail_content" name="type_mail_content">
-                            <option disabled hidden selected>Pilih Jenis Isi Surat</option>
-                            @foreach ($type_mail_contents as $type_mail_content)
-                                <option value="{{ $type_mail_content->id }}"
-                                    @if (!is_null(old('type_mail_content')) && old('type_mail_content') == $type_mail_content->id) selected @endif>
-                                    {{ $type_mail_content->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="input-group">
+                            <select class="form-control" id="type_mail_content" name="type_mail_content">
+                                <option disabled hidden selected>Pilih Jenis Isi Surat</option>
+                                @foreach ($type_mail_contents as $type_mail_content)
+                                    <option value="{{ $type_mail_content->id }}"
+                                        @if (!is_null(old('type_mail_content')) && old('type_mail_content') == $type_mail_content->id) selected @endif>
+                                        {{ $type_mail_content->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <a class="btn btn-primary" title="Tambah Jenis" data-toggle="modal"
+                                data-target="#addTypeMailContent">
+                                <i class="fas fa-plus mr-1"></i> Tambah Jenis
+                            </a>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="level">Tingkat Instansi Polri</label>
@@ -58,20 +64,27 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <span class="input-group-text bg-warning" onclick="resetLevel()" title="Reset">
+                            <a class="btn btn-warning" onclick="resetLevel()" title="Reset">
                                 <i class="fas fa-undo mr-1"></i> Reset
-                            </span>
+                            </a>
                         </div>
                         <p class="text-danger py-1">* Diisi Jika Bersumber Dari Instansi Polri</p>
                     </div>
                     <div class="institution_form">
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="attachment">Lampiran <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="attachment[]" id="documentInput"
                             accept=".pdf,.doc,.docx,.txt,.xls,image/*" multiple="true" required>
                         <p class="text-danger py-1">* .pdf .doc .docx .xls .png .jpg .jpeg</p>
-                        {{-- <iframe id="documentPreview" class="w-100 mt-3 d-none" style="height: 600px;"></iframe> --}}
+                    </div> --}}
+                    <div class="form-group">
+                        <label for="attachment">Lampiran <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="attachment" id="documentInput"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
+                        {{-- <p class="text-danger py-1">* .pdf .docx .xlsx Max Size 2MB</p> --}}
+                        <p class="text-danger py-1">* .pdf .docx .xlsx</p>
+                        <iframe id="documentPreview" class="w-100 mt-3 d-none" style="height: 600px;"></iframe>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
@@ -95,20 +108,36 @@
         </div>
     </div>
     @push('js-bottom')
+        @include('includes.global.type_mail_content_modal')
         @include('includes.global.institution_modal')
         @include('js.archieve.incoming_mail.script')
         <script>
-            // $('#documentInput').on('change', function(event) {
-            //     var file = event.target.files[0];
-            //     if (file.type === "application/pdf") {
-            //         var fileURL = URL.createObjectURL(file);
-            //         $('#documentPreview').attr('src', fileURL);
-            //         $('#documentPreview').removeClass('d-none');
-            //     } else {
-            //         $('#documentPreview').addClass('d-none');
-            //         $('#documentPreview').attr('src', '');
-            //     }
-            // });
+            $('#documentInput').on('change', function(event) {
+                var file = event.target.files[0];
+                // if (file.size <= 2000000) {
+                //     if (file.type === "application/pdf") {
+                //         var fileURL = URL.createObjectURL(file);
+                //         $('#documentPreview').attr('src', fileURL);
+                //         $('#documentPreview').removeClass('d-none');
+                //     } else {
+                //         $('#documentPreview').addClass('d-none');
+                //         $('#documentPreview').attr('src', '');
+                //     }
+                // } else {
+                //     $('#documentPreview').addClass('d-none');
+                //     $('#documentPreview').attr('src', '');
+                //     $('#documentInput').val('');
+                //     alertError('File Size Lebih Dari 2MB');
+                // }
+                if (file.type === "application/pdf") {
+                    var fileURL = URL.createObjectURL(file);
+                    $('#documentPreview').attr('src', fileURL);
+                    $('#documentPreview').removeClass('d-none');
+                } else {
+                    $('#documentPreview').addClass('d-none');
+                    $('#documentPreview').attr('src', '');
+                }
+            });
 
             $('#level').on('change', function() {
                 $('.institution_form').html('');

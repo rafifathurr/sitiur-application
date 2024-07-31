@@ -1,4 +1,4 @@
-<div class="modal fade" id="addInstitution" tabindex="-1">
+<div class="modal fade" id="addInstitution" tabindex="-1" style="z-index: 1051 !important;">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form method="post" action="{{ route('master.institution.store') }}">

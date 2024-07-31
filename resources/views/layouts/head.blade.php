@@ -15,6 +15,7 @@
     <link href="{{ asset('lib/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet" />
+
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     <!-- DataTables -->

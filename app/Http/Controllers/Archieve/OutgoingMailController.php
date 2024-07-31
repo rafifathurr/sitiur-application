@@ -64,7 +64,7 @@ class OutgoingMailController extends Controller
                 $btn_action = '<a href="' . route('archieve.outgoing-mail.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.outgoing-mail.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                // $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
+                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
             ->only(['number', 'date', 'classification', 'institution', 'type_mail_content', 'name', 'action'])
@@ -117,47 +117,85 @@ class OutgoingMailController extends Controller
                     Storage::makeDirectory($path);
                 }
 
-                $attachment_collection = [];
+                // $attachment_collection = [];
 
-                foreach ($request->file('attachment') as $index => $attachment) {
-                    // File Upload Configuration
-                    $exploded_name = explode(' ', strtolower($request->name));
-                    $file_name_config = implode('_', $exploded_name);
-                    $file_name = $outgoing_mail->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                // foreach ($request->file('attachment') as $index => $attachment) {
+                //     // File Upload Configuration
+                //     $exploded_name = explode(' ', strtolower($request->name));
+                //     $file_name_config = implode('_', $exploded_name);
+                //     $file_name = $outgoing_mail->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
 
-                    // Uploading File
-                    $attachment->storePubliclyAs($path, $file_name);
+                //     // Uploading File
+                //     $attachment->storePubliclyAs($path, $file_name);
 
-                    // Check Upload Success
-                    if (Storage::exists($path . '/' . $file_name)) {
-                        array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     // Check Upload Success
+                //     if (Storage::exists($path . '/' . $file_name)) {
+                //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     } else {
+                //         // Failed and Rollback
+                //         DB::rollBack();
+                //         return redirect()
+                //             ->back()
+                //             ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
+                //             ->withInput();
+                //     }
+                // }
+
+                // // Update Record for Attachment
+                // $outgoing_mail_update = OutgoingMail::where('id', $outgoing_mail->id)->update([
+                //     'attachment' => $attachment_collection,
+                // ]);
+
+                // // Validation Update Attachment Outgoing Mail Record
+                // if ($outgoing_mail_update) {
+                //     DB::commit();
+                //     return redirect()
+                //         ->route('archieve.outgoing-mail.show', ['id' => $outgoing_mail->id])
+                //         ->with(['success' => 'Berhasil Menambahkan Surat Keluar']);
+                // } else {
+                //     // Failed and Rollback
+                //     DB::rollBack();
+                //     return redirect()
+                //         ->back()
+                //         ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
+                //         ->withInput();
+                // }
+
+                $exploded_name = explode(' ', strtolower($request->name));
+                $file_name_config = implode('_', $exploded_name);
+                $file = $request->file('attachment');
+                $file_name = $outgoing_mail->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
+
+                // Uploading File
+                $file->storePubliclyAs($path, $file_name);
+
+                // Check Upload Success
+                if (Storage::exists($path . '/' . $file_name)) {
+                    // Update Record for Attachment
+                    $incoming_mail_update = OutgoingMail::where('id', $outgoing_mail->id)->update([
+                        'attachment' => $path_store . '/' . $file_name,
+                    ]);
+
+                    // Validation Update Attachment Incoming Mail Record
+                    if ($incoming_mail_update) {
+                        DB::commit();
+                        return redirect()
+                            ->route('archieve.outgoing-mail.show', ['id' => $outgoing_mail->id])
+                            ->with(['success' => 'Berhasil Menambahkan Surat Keluar']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
+                            ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
                             ->withInput();
                     }
-                }
-
-                // Update Record for Attachment
-                $incoming_mail_update = OutgoingMail::where('id', $outgoing_mail->id)->update([
-                    'attachment' => $attachment_collection,
-                ]);
-
-                // Validation Update Attachment Outgoing Mail Record
-                if ($incoming_mail_update) {
-                    DB::commit();
-                    return redirect()
-                        ->route('archieve.outgoing-mail.show', ['id' => $outgoing_mail->id])
-                        ->with(['success' => 'Berhasil Menambahkan Surat Keluar']);
                 } else {
                     // Failed and Rollback
                     DB::rollBack();
                     return redirect()
                         ->back()
-                        ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
+                        ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
                         ->withInput();
                 }
             } else {
@@ -257,60 +295,111 @@ class OutgoingMailController extends Controller
                         Storage::makeDirectory($path);
                     }
 
-                    $outgoing_mail_attachment = json_decode($outgoing_mail->attachment);
+                    // $outgoing_mail_attachment = json_decode($outgoing_mail->attachment);
 
-                    foreach ($outgoing_mail_attachment as $last_attachment) {
-                        // File Last Record
-                        $last_attachment_exploded = explode('/', $last_attachment);
-                        $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
+                    // foreach ($outgoing_mail_attachment as $last_attachment) {
+                    //     // File Last Record
+                    //     $last_attachment_exploded = explode('/', $last_attachment);
+                    //     $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
 
-                        // Remove Last Record
-                        if (Storage::exists($path . '/' . $file_name_record)) {
-                            Storage::delete($path . '/' . $file_name_record);
-                        }
+                    //     // Remove Last Record
+                    //     if (Storage::exists($path . '/' . $file_name_record)) {
+                    //         Storage::delete($path . '/' . $file_name_record);
+                    //     }
+                    // }
+
+                    // $attachment_collection = [];
+
+                    // foreach ($request->file('attachment') as $index => $attachment) {
+                    //     // File Upload Configuration
+                    //     $exploded_name = explode(' ', strtolower($request->name));
+                    //     $file_name_config = implode('_', $exploded_name);
+                    //     $file_name = $outgoing_mail->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+
+                    //     // Uploading File
+                    //     $attachment->storePubliclyAs($path, $file_name);
+
+                    //     // Check Upload Success
+                    //     if (Storage::exists($path . '/' . $file_name)) {
+                    //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                    //     } else {
+                    //         // Failed and Rollback
+                    //         DB::rollBack();
+                    //         return redirect()
+                    //             ->back()
+                    //             ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
+                    //             ->withInput();
+                    //     }
+                    // }
+
+                    // // Update Record for Attachment
+                    // $outgoing_mail_attachment_update = $outgoing_mail->update([
+                    //     'attachment' => $attachment_collection,
+                    // ]);
+
+                    // // Validation Update Attachment Outgoing Mail Record
+                    // if ($outgoing_mail_attachment_update) {
+                    //     DB::commit();
+                    //     return redirect()
+                    //         ->route('archieve.outgoing-mail.show', ['id' => $id])
+                    //         ->with(['success' => 'Berhasil Perbarui Surat Keluar']);
+                    // } else {
+                    //     // Failed and Rollback
+                    //     DB::rollBack();
+                    //     return redirect()
+                    //         ->back()
+                    //         ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
+                    //         ->withInput();
+                    // }
+
+                    /**
+                     * Get Filename Attachment Record
+                     */
+                    $picture_record_exploded = explode('/', $outgoing_mail->attachment);
+                    $file_name_record = $picture_record_exploded[count($picture_record_exploded) - 1];
+
+                    /**
+                     * Remove Has File Exist
+                     */
+                    if (Storage::exists($path . '/' . $file_name_record)) {
+                        Storage::delete($path . '/' . $file_name_record);
                     }
 
-                    $attachment_collection = [];
+                    $exploded_name = explode(' ', strtolower($request->name));
+                    $file_name_config = implode('_', $exploded_name);
+                    $file = $request->file('attachment');
+                    $file_name = $outgoing_mail->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
 
-                    foreach ($request->file('attachment') as $index => $attachment) {
-                        // File Upload Configuration
-                        $exploded_name = explode(' ', strtolower($request->name));
-                        $file_name_config = implode('_', $exploded_name);
-                        $file_name = $outgoing_mail->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                    // Uploading File
+                    $file->storePubliclyAs($path, $file_name);
 
-                        // Uploading File
-                        $attachment->storePubliclyAs($path, $file_name);
+                    // Check Upload Success
+                    if (Storage::exists($path . '/' . $file_name)) {
+                        // Update Record for Attachment
+                        $outgoing_mail_attachment_update = $outgoing_mail->update([
+                            'attachment' => $path_store . '/' . $file_name,
+                        ]);
 
-                        // Check Upload Success
-                        if (Storage::exists($path . '/' . $file_name)) {
-                            array_push($attachment_collection, $path_store . '/' . $file_name);
+                        // Validation Update Attachment Incoming Mail Record
+                        if ($outgoing_mail_attachment_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.outgoing-mail.show', ['id' => $id])
+                                ->with(['success' => 'Berhasil Perbarui Surat Keluar']);
                         } else {
                             // Failed and Rollback
                             DB::rollBack();
                             return redirect()
                                 ->back()
-                                ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
+                                ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
                                 ->withInput();
                         }
-                    }
-
-                    // Update Record for Attachment
-                    $outgoing_mail_attachment_update = $outgoing_mail->update([
-                        'attachment' => $attachment_collection,
-                    ]);
-
-                    // Validation Update Attachment Outgoing Mail Record
-                    if ($outgoing_mail_attachment_update) {
-                        DB::commit();
-                        return redirect()
-                            ->route('archieve.outgoing-mail.show', ['id' => $id])
-                            ->with(['success' => 'Berhasil Perbarui Surat Keluar']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Update Lampiran Surat Keluar'])
+                            ->with(['failed' => 'Gagal Upload Lampiran Surat Keluar'])
                             ->withInput();
                     }
                 } else {
