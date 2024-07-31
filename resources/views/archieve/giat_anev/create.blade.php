@@ -15,8 +15,8 @@
                             value="{{ old('number_giat') }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="name">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
+                        <label for="name">Judul <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Judul"
                             value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group">

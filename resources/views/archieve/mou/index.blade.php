@@ -32,7 +32,7 @@
                                     <th>Tanggal</th>
                                     <th>Tipe</th>
                                     <th>Instansi</th>
-                                    <th>Nama</th>
+                                    <th>Judul</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

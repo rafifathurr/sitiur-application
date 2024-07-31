@@ -8,7 +8,7 @@
                 </div>
                 <div class="py-1">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Nama</label>
+                        <label class="col-sm-3 col-form-label">Judul Surat</label>
                         <div class="col-sm-9 col-form-label">
                             {{ $statement_letter->name }}
                         </div>

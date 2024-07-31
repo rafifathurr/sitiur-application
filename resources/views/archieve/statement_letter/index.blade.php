@@ -30,7 +30,7 @@
                                     <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Instansi</th>
-                                    <th>Nama</th>
+                                    <th>Judul Surat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

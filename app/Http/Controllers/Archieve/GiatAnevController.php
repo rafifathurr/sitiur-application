@@ -369,7 +369,7 @@ class GiatAnevController extends Controller
                             'attachment' => $path_store . '/' . $file_name,
                         ]);
 
-                        // Validation Update Attachment Incoming Mail Record
+                        // Validation Update Attachment Giat Anev Record
                         if ($giat_anev_attachment_update) {
                             DB::commit();
                             return redirect()

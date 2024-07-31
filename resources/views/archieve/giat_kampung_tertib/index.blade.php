@@ -6,10 +6,21 @@
                 <div class="card-body p-0">
                     <div class="az-dashboard-one-title">
                         <h4 class="az-dashboard-title" id="title">Daftar Giat Kampung Tertib</h4>
-                        <a href="{{ route('archieve.giat-kampung-tertib.create') }}" class="btn btn-sm rounded-5 btn-primary">
-                            <i class="fas fa-plus mr-1"></i>
-                            Tambah Giat Anev
-                        </a>
+                        <div class="my-auto text-right">
+                            <select class="form-control my-3" id="year" name="year" onchange="dataTable()">
+                                <option disabled hidden selected>Pilih Tahun</option>
+                                @foreach ($years as $index => $year)
+                                    <option value="{{ $year['year'] }}" @if ($index == 0) selected @endif>
+                                        {{ $year['year'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <a href="{{ route('archieve.giat-kampung-tertib.create') }}"
+                                class="btn btn-sm rounded-5 btn-primary">
+                                <i class="fas fa-plus mr-1"></i>
+                                Tambah Giat Anev
+                            </a>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <input type="hidden" id="datatable-url" value="{{ $dt_route }}">
@@ -20,7 +31,7 @@
                                     <th>Nomor</th>
                                     <th>Tanggal</th>
                                     <th>Instansi</th>
-                                    <th>Nama</th>
+                                    <th>Judul</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
