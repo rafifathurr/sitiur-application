@@ -42,6 +42,7 @@ class StatementLetterController extends Controller
             ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration

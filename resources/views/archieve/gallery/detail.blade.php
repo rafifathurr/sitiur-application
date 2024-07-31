@@ -30,7 +30,8 @@
                         <div class="col-sm-9 col-form-label">
                             <a href="{{ asset($gallery->attachment) }}">
                                 <img src="{{ asset($gallery->attachment) }}" width="30%"
-                                    class="rounded-5 border border-1-grey" alt="">
+                                    class="rounded-5 border border-1-grey" alt=""
+                                    onerror="this.onerror=null;this.src='{{ asset('img/image-not-found.jpg') }}'">
                             </a>
                         </div>
                     </div>

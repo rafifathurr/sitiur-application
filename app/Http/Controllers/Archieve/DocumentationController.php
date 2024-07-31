@@ -18,6 +18,8 @@ class DocumentationController extends Controller
      */
     public function index()
     {
+        $years = Documentation::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.documentation.dataTable'); // Route DataTables
         return view('archieve.documentation.index', $data);
     }
@@ -34,11 +36,13 @@ class DocumentationController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
         $documentations = Documentation::with(['institution'])
+            ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration
@@ -54,7 +58,7 @@ class DocumentationController extends Controller
                 $btn_action = '<a href="' . route('archieve.documentation.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.documentation.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                // $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
+                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Video" download><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
             ->only(['date', 'institution', 'name', 'action'])

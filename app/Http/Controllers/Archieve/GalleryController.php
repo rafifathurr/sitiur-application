@@ -17,6 +17,8 @@ class GalleryController extends Controller
      */
     public function index()
     {
+        $years = Gallery::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.gallery.dataTable'); // Route DataTables
         return view('archieve.gallery.index', $data);
     }
@@ -32,9 +34,13 @@ class GalleryController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
-        $galeries = Gallery::whereNull('deleted_by')->whereNull('deleted_at')->get();
+        $galeries = Gallery::whereYear('date', $request->year)
+            ->whereNull('deleted_by')
+            ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
+            ->get();
 
         // DataTables Yajraa Configuration
         $dataTable = DataTables::of($galeries)
@@ -43,13 +49,13 @@ class GalleryController extends Controller
                 return date('d F Y', strtotime($data->date));
             })
             ->addColumn('attachment', function ($data) {
-                return '<a href="' . asset($data->attachment) . '"><img width="100%" src="' . asset($data->attachment) . '" alt="" class="rounded-5 border border-1-default"></a>';
+                return '<a href="' . asset($data->attachment) . '"><img width="100%" src="' . asset($data->attachment) . '" alt="" onerror="this.onerror=null;this.src=' . "'" . asset('img/image-not-found.jpg') . "'" . '" class="rounded-5 border border-1-default"></a>';
             })
             ->addColumn('action', function ($data) {
                 $btn_action = '<a href="' . route('archieve.gallery.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.gallery.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                // $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
+                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Foto" download><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
             ->only(['date', 'name', 'attachment', 'action'])
