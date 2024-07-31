@@ -20,6 +20,8 @@ class OutgoingMailController extends Controller
      */
     public function index()
     {
+        $years = OutgoingMail::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.outgoing-mail.dataTable'); // Route DataTables
         return view('archieve.outgoing_mail.index', $data);
     }

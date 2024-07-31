@@ -20,6 +20,8 @@ class IncomingMailController extends Controller
      */
     public function index()
     {
+        $years = IncomingMail::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.incoming-mail.dataTable'); // Route DataTables
         return view('archieve.incoming_mail.index', $data);
     }

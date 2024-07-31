@@ -42,15 +42,17 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Instansi Polri Utama</label>
                             <div class="col-sm-9 col-form-label">
-                                {{ $mou->institution->parent->name }}
+                                {{ !is_null($mou->institution->parent_id) ? $mou->institution->parent->name : $mou->institution->name }}
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Instansi Polri Wilayah</label>
-                            <div class="col-sm-9 col-form-label">
-                                {{ $mou->institution->name }}
+                        @if (!is_null($mou->institution->parent_id))
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Instansi Polri Wilayah</label>
+                                <div class="col-sm-9 col-form-label">
+                                    {{ $mou->institution->name }}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Deskripsi</label>
@@ -58,19 +60,37 @@
                             {!! $mou->description ?? '-' !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Lampiran</label>
                         <div class="p-1">
                             <div class="row">
                                 @foreach (json_decode($mou->attachment) as $attachment)
                                     <div class="col-sm-3 col-form-label">
-                                        <a target="_blank" href="{{ asset($attachment) }}">Lampiran MOU<i
+                                        <a target="_blank" href="{{ asset($attachment) }}">Lampiran Surat Masuk<i
                                                 class="fas fa-download ml-1"></i></a>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+                    @if (explode('.', $mou->attachment)[count(explode('.', $mou->attachment)) - 1] == 'pdf')
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Lampiran</label>
+                            <div class="col-sm-12 col-form-label">
+                                <iframe class="w-100 mt-3" style="height: 1040px;"
+                                    src="{{ asset($mou->attachment) }}" width="1000" height="1000"
+                                    frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    @else
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Lampiran</label>
+                            <div class="col-sm-9 col-form-label">
+                                <a href="{{ asset($mou->attachment) }}" class="text-primary" target="_blank"><i
+                                        class="fas fa-download mr-1"></i> Lampiran Surat Masuk</a>
+                            </div>
+                        </div>
+                    @endif
                     <div class="p-3 border border-1 rounded-5">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Diperbarui Oleh</label>
