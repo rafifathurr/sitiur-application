@@ -110,7 +110,11 @@
             });
 
             if ($('#level_record').val() != '') {
-                $('#level').val($('#level_record').val()).trigger('change');
+                if ($('#level_record').val() == 0) {
+                    $('#level').val(1).trigger('change');
+                } else {
+                    $('#level').val($('#level_record').val()).trigger('change');
+                }
             } else {
                 onCreate = false;
             }

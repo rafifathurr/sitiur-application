@@ -30,15 +30,17 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Instansi Polri Utama</label>
                             <div class="col-sm-9 col-form-label">
-                                {{ $documentation->institution->parent->name }}
+                                {{ !is_null($documentation->institution->parent_id) ? $documentation->institution->parent->name : $documentation->institution->name }}
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Instansi Polri Wilayah</label>
-                            <div class="col-sm-9 col-form-label">
-                                {{ $documentation->institution->name }}
+                        @if (!is_null($documentation->institution->parent_id))
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Instansi Polri Wilayah</label>
+                                <div class="col-sm-9 col-form-label">
+                                    {{ $documentation->institution->name }}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Deskripsi</label>

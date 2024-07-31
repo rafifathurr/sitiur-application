@@ -47,7 +47,7 @@
                     </div>
                     <div class="institution_form">
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="attachment">Lampiran <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="attachment[]" id="documentInput"
                             accept=".pdf,.doc,.docx,.txt,.xls,image/*" multiple="true">
@@ -62,7 +62,16 @@
                                 @endforeach
                             </div>
                         </div>
-                        {{-- <iframe id="documentPreview" class="w-100 mt-3 d-none" style="height: 600px;"></iframe> --}}
+                    </div> --}}
+                    <div class="form-group">
+                        <label for="attachment">Lampiran <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="attachment" id="documentInput"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                        {{-- <p class="text-danger py-1">* .pdf .docx .xlsx Max Size 2MB</p> --}}
+                        <p class="text-danger py-1">* .pdf .docx .xlsx .pptx</p>
+                        <a target="_blank" href="{{ asset($giat_anev->attachment) }}">Lampiran Giat Anev Diseminasi<i
+                                class="fas fa-download ml-1"></i></a>
+                        <iframe id="documentPreview" class="w-100 mt-3 d-none" style="height: 600px;"></iframe>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
@@ -91,17 +100,32 @@
         <script>
             let onCreate = true;
 
-            // $('#documentInput').on('change', function(event) {
-            //     var file = event.target.files[0];
-            //     if (file.type === "application/pdf") {
-            //         var fileURL = URL.createObjectURL(file);
-            //         $('#documentPreview').attr('src', fileURL);
-            //         $('#documentPreview').removeClass('d-none');
-            //     } else {
-            //         $('#documentPreview').addClass('d-none');
-            //         $('#documentPreview').attr('src', '');
-            //     }
-            // });
+            $('#documentInput').on('change', function(event) {
+                var file = event.target.files[0];
+                // if (file.size <= 2000000) {
+                //     if (file.type === "application/pdf") {
+                //         var fileURL = URL.createObjectURL(file);
+                //         $('#documentPreview').attr('src', fileURL);
+                //         $('#documentPreview').removeClass('d-none');
+                //     } else {
+                //         $('#documentPreview').addClass('d-none');
+                //         $('#documentPreview').attr('src', '');
+                //     }
+                // } else {
+                //     $('#documentPreview').addClass('d-none');
+                //     $('#documentPreview').attr('src', '');
+                //     $('#documentInput').val('');
+                //     alertError('File Size Lebih Dari 2MB');
+                // }
+                if (file.type === "application/pdf") {
+                    var fileURL = URL.createObjectURL(file);
+                    $('#documentPreview').attr('src', fileURL);
+                    $('#documentPreview').removeClass('d-none');
+                } else {
+                    $('#documentPreview').addClass('d-none');
+                    $('#documentPreview').attr('src', '');
+                }
+            });
 
             $('#level').on('change', function() {
                 $('.institution_form').html('');
@@ -128,7 +152,11 @@
             });
 
             if ($('#level_record').val() != '') {
-                $('#level').val($('#level_record').val()).trigger('change');
+                if ($('#level_record').val() == 0) {
+                    $('#level').val(1).trigger('change');
+                } else {
+                    $('#level').val($('#level_record').val()).trigger('change');
+                }
             } else {
                 onCreate = false;
             }

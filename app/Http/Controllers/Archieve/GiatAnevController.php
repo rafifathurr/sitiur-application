@@ -20,6 +20,8 @@ class GiatAnevController extends Controller
      */
     public function index()
     {
+        $years = GiatAnev::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.giat-anev.dataTable'); // Route DataTables
         return view('archieve.giat_anev.index', $data);
     }
@@ -36,11 +38,13 @@ class GiatAnevController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
         $giat_anevs = GiatAnev::with(['institution'])
+            ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration
@@ -56,7 +60,7 @@ class GiatAnevController extends Controller
                 $btn_action = '<a href="' . route('archieve.giat-anev.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.giat-anev.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                // $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
+                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
             ->only(['number_giat', 'date', 'institution', 'name', 'action'])
@@ -105,47 +109,85 @@ class GiatAnevController extends Controller
                     Storage::makeDirectory($path);
                 }
 
-                $attachment_collection = [];
+                // $attachment_collection = [];
 
-                foreach ($request->file('attachment') as $index => $attachment) {
-                    // File Upload Configuration
-                    $exploded_name = explode(' ', strtolower($request->name));
-                    $file_name_config = implode('_', $exploded_name);
-                    $file_name = $giat_anev->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                // foreach ($request->file('attachment') as $index => $attachment) {
+                //     // File Upload Configuration
+                //     $exploded_name = explode(' ', strtolower($request->name));
+                //     $file_name_config = implode('_', $exploded_name);
+                //     $file_name = $giat_anev->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
 
-                    // Uploading File
-                    $attachment->storePubliclyAs($path, $file_name);
+                //     // Uploading File
+                //     $attachment->storePubliclyAs($path, $file_name);
 
-                    // Check Upload Success
-                    if (Storage::exists($path . '/' . $file_name)) {
-                        array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     // Check Upload Success
+                //     if (Storage::exists($path . '/' . $file_name)) {
+                //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     } else {
+                //         // Failed and Rollback
+                //         DB::rollBack();
+                //         return redirect()
+                //             ->back()
+                //             ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
+                //             ->withInput();
+                //     }
+                // }
+
+                // // Update Record for Attachment
+                // $giat_anev_update = GiatAnev::where('id', $giat_anev->id)->update([
+                //     'attachment' => $attachment_collection,
+                // ]);
+
+                // // Validation Update Attachment Giat Anev Record
+                // if ($giat_anev_update) {
+                //     DB::commit();
+                //     return redirect()
+                //         ->route('archieve.giat-anev.show', ['id' => $giat_anev->id])
+                //         ->with(['success' => 'Berhasil Menambahkan Giat Anev Diseminasi']);
+                // } else {
+                //     // Failed and Rollback
+                //     DB::rollBack();
+                //     return redirect()
+                //         ->back()
+                //         ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
+                //         ->withInput();
+                // }
+
+                $exploded_name = explode(' ', strtolower($request->name));
+                $file_name_config = implode('_', $exploded_name);
+                $file = $request->file('attachment');
+                $file_name = $giat_anev->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
+
+                // Uploading File
+                $file->storePubliclyAs($path, $file_name);
+
+                // Check Upload Success
+                if (Storage::exists($path . '/' . $file_name)) {
+                    // Update Record for Attachment
+                    $giat_anev_update = GiatAnev::where('id', $giat_anev->id)->update([
+                        'attachment' => $path_store . '/' . $file_name,
+                    ]);
+
+                    // Validation Update Attachment Giat Anev Record
+                    if ($giat_anev_update) {
+                        DB::commit();
+                        return redirect()
+                            ->route('archieve.giat-anev.show', ['id' => $giat_anev->id])
+                            ->with(['success' => 'Berhasil Menambahkan Giat Anev Diseminasi']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
+                            ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
                             ->withInput();
                     }
-                }
-
-                // Update Record for Attachment
-                $giat_anev_update = GiatAnev::where('id', $giat_anev->id)->update([
-                    'attachment' => $attachment_collection,
-                ]);
-
-                // Validation Update Attachment Giat Anev Record
-                if ($giat_anev_update) {
-                    DB::commit();
-                    return redirect()
-                        ->route('archieve.giat-anev.show', ['id' => $giat_anev->id])
-                        ->with(['success' => 'Berhasil Menambahkan Giat Anev Diseminasi']);
                 } else {
                     // Failed and Rollback
                     DB::rollBack();
                     return redirect()
                         ->back()
-                        ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
+                        ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
                         ->withInput();
                 }
             } else {
@@ -242,60 +284,111 @@ class GiatAnevController extends Controller
                         Storage::makeDirectory($path);
                     }
 
-                    $giat_anev_attachment = json_decode($giat_anev->attachment);
+                    // $giat_anev_attachment = json_decode($giat_anev->attachment);
 
-                    foreach ($giat_anev_attachment as $last_attachment) {
-                        // File Last Record
-                        $last_attachment_exploded = explode('/', $last_attachment);
-                        $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
+                    // foreach ($giat_anev_attachment as $last_attachment) {
+                    //     // File Last Record
+                    //     $last_attachment_exploded = explode('/', $last_attachment);
+                    //     $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
 
-                        // Remove Last Record
-                        if (Storage::exists($path . '/' . $file_name_record)) {
-                            Storage::delete($path . '/' . $file_name_record);
-                        }
+                    //     // Remove Last Record
+                    //     if (Storage::exists($path . '/' . $file_name_record)) {
+                    //         Storage::delete($path . '/' . $file_name_record);
+                    //     }
+                    // }
+
+                    // $attachment_collection = [];
+
+                    // foreach ($request->file('attachment') as $index => $attachment) {
+                    //     // File Upload Configuration
+                    //     $exploded_name = explode(' ', strtolower($request->name));
+                    //     $file_name_config = implode('_', $exploded_name);
+                    //     $file_name = $giat_anev->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+
+                    //     // Uploading File
+                    //     $attachment->storePubliclyAs($path, $file_name);
+
+                    //     // Check Upload Success
+                    //     if (Storage::exists($path . '/' . $file_name)) {
+                    //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                    //     } else {
+                    //         // Failed and Rollback
+                    //         DB::rollBack();
+                    //         return redirect()
+                    //             ->back()
+                    //             ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
+                    //             ->withInput();
+                    //     }
+                    // }
+
+                    // // Update Record for Attachment
+                    // $giat_anev_attachment_update = $giat_anev->update([
+                    //     'attachment' => $attachment_collection,
+                    // ]);
+
+                    // // Validation Update Attachment Giat Anev Diseminasi Record
+                    // if ($giat_anev_attachment_update) {
+                    //     DB::commit();
+                    //     return redirect()
+                    //         ->route('archieve.giat-anev.show', ['id' => $id])
+                    //         ->with(['success' => 'Berhasil Perbarui Giat Anev Diseminasi']);
+                    // } else {
+                    //     // Failed and Rollback
+                    //     DB::rollBack();
+                    //     return redirect()
+                    //         ->back()
+                    //         ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
+                    //         ->withInput();
+                    // }
+
+                    /**
+                     * Get Filename Attachment Record
+                     */
+                    $picture_record_exploded = explode('/', $giat_anev->attachment);
+                    $file_name_record = $picture_record_exploded[count($picture_record_exploded) - 1];
+
+                    /**
+                     * Remove Has File Exist
+                     */
+                    if (Storage::exists($path . '/' . $file_name_record)) {
+                        Storage::delete($path . '/' . $file_name_record);
                     }
 
-                    $attachment_collection = [];
+                    $exploded_name = explode(' ', strtolower($request->name));
+                    $file_name_config = implode('_', $exploded_name);
+                    $file = $request->file('attachment');
+                    $file_name = $giat_anev->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
 
-                    foreach ($request->file('attachment') as $index => $attachment) {
-                        // File Upload Configuration
-                        $exploded_name = explode(' ', strtolower($request->name));
-                        $file_name_config = implode('_', $exploded_name);
-                        $file_name = $giat_anev->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                    // Uploading File
+                    $file->storePubliclyAs($path, $file_name);
 
-                        // Uploading File
-                        $attachment->storePubliclyAs($path, $file_name);
+                    // Check Upload Success
+                    if (Storage::exists($path . '/' . $file_name)) {
+                        // Update Record for Attachment
+                        $giat_anev_attachment_update = $giat_anev->update([
+                            'attachment' => $path_store . '/' . $file_name,
+                        ]);
 
-                        // Check Upload Success
-                        if (Storage::exists($path . '/' . $file_name)) {
-                            array_push($attachment_collection, $path_store . '/' . $file_name);
+                        // Validation Update Attachment Incoming Mail Record
+                        if ($giat_anev_attachment_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.giat-anev.show', ['id' => $id])
+                                ->with(['success' => 'Berhasil Perbarui Giat Anev Diseminasi']);
                         } else {
                             // Failed and Rollback
                             DB::rollBack();
                             return redirect()
                                 ->back()
-                                ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
+                                ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
                                 ->withInput();
                         }
-                    }
-
-                    // Update Record for Attachment
-                    $giat_anev_attachment_update = $giat_anev->update([
-                        'attachment' => $attachment_collection,
-                    ]);
-
-                    // Validation Update Attachment Giat Anev Diseminasi Record
-                    if ($giat_anev_attachment_update) {
-                        DB::commit();
-                        return redirect()
-                            ->route('archieve.giat-anev.show', ['id' => $id])
-                            ->with(['success' => 'Berhasil Perbarui Giat Anev Diseminasi']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Update Lampiran Giat Anev Diseminasi'])
+                            ->with(['failed' => 'Gagal Upload Lampiran Giat Anev Diseminasi'])
                             ->withInput();
                     }
                 } else {

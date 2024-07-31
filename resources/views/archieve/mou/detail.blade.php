@@ -66,7 +66,7 @@
                             <div class="row">
                                 @foreach (json_decode($mou->attachment) as $attachment)
                                     <div class="col-sm-3 col-form-label">
-                                        <a target="_blank" href="{{ asset($attachment) }}">Lampiran Surat Masuk<i
+                                        <a target="_blank" href="{{ asset($attachment) }}">Lampiran MOU<i
                                                 class="fas fa-download ml-1"></i></a>
                                     </div>
                                 @endforeach
