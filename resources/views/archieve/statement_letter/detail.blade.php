@@ -46,7 +46,7 @@
                             {!! $statement_letter->description ?? '-' !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Lampiran</label>
                         <div class="p-1">
                             <div class="row">
@@ -58,7 +58,25 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+                    @if (explode('.', $statement_letter->attachment)[count(explode('.', $statement_letter->attachment)) - 1] == 'pdf')
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Lampiran</label>
+                            <div class="col-sm-12 col-form-label">
+                                <iframe class="w-100 mt-3" style="height: 1040px;"
+                                    src="{{ asset($statement_letter->attachment) }}" width="1000" height="1000"
+                                    frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    @else
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Lampiran</label>
+                            <div class="col-sm-9 col-form-label">
+                                <a href="{{ asset($statement_letter->attachment) }}" class="text-primary" target="_blank"><i
+                                        class="fas fa-download mr-1"></i> Lampiran Surat Pernyataan</a>
+                            </div>
+                        </div>
+                    @endif
                     <div class="p-3 border border-1 rounded-5">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Diperbarui Oleh</label>

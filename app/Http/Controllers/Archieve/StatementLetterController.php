@@ -18,6 +18,8 @@ class StatementLetterController extends Controller
      */
     public function index()
     {
+        $years = StatementLetter::select(DB::raw('YEAR(date) as year'))->whereNull('deleted_by')->whereNull('deleted_at')->groupBy(DB::raw('YEAR(date)'))->orderBy(DB::raw('YEAR(date)'), 'DESC')->get()->toArray();
+        $data['years'] = !empty($years) ? $years : [['year' => date('Y')]];
         $data['dt_route'] = route('archieve.statement-letter.dataTable'); // Route DataTables
         return view('archieve.statement_letter.index', $data);
     }
@@ -54,7 +56,7 @@ class StatementLetterController extends Controller
                 $btn_action = '<a href="' . route('archieve.statement-letter.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.statement-letter.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                // $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
+                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
             ->only(['date', 'institution', 'name', 'action'])
@@ -101,47 +103,85 @@ class StatementLetterController extends Controller
                     Storage::makeDirectory($path);
                 }
 
-                $attachment_collection = [];
+                // $attachment_collection = [];
 
-                foreach ($request->file('attachment') as $index => $attachment) {
-                    // File Upload Configuration
-                    $exploded_name = explode(' ', strtolower($request->name));
-                    $file_name_config = implode('_', $exploded_name);
-                    $file_name = $statement_letter->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                // foreach ($request->file('attachment') as $index => $attachment) {
+                //     // File Upload Configuration
+                //     $exploded_name = explode(' ', strtolower($request->name));
+                //     $file_name_config = implode('_', $exploded_name);
+                //     $file_name = $statement_letter->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
 
-                    // Uploading File
-                    $attachment->storePubliclyAs($path, $file_name);
+                //     // Uploading File
+                //     $attachment->storePubliclyAs($path, $file_name);
 
-                    // Check Upload Success
-                    if (Storage::exists($path . '/' . $file_name)) {
-                        array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     // Check Upload Success
+                //     if (Storage::exists($path . '/' . $file_name)) {
+                //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                //     } else {
+                //         // Failed and Rollback
+                //         DB::rollBack();
+                //         return redirect()
+                //             ->back()
+                //             ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
+                //             ->withInput();
+                //     }
+                // }
+
+                // // Update Record for Attachment
+                // $statement_letter_update = StatementLetter::where('id', $statement_letter->id)->update([
+                //     'attachment' => $attachment_collection,
+                // ]);
+
+                // // Validation Update Attachment Statement Letter Record
+                // if ($statement_letter_update) {
+                //     DB::commit();
+                //     return redirect()
+                //         ->route('archieve.statement-letter.show', ['id' => $statement_letter->id])
+                //         ->with(['success' => 'Berhasil Menambahkan Surat Pernyataan']);
+                // } else {
+                //     // Failed and Rollback
+                //     DB::rollBack();
+                //     return redirect()
+                //         ->back()
+                //         ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
+                //         ->withInput();
+                // }
+
+                $exploded_name = explode(' ', strtolower($request->name));
+                $file_name_config = implode('_', $exploded_name);
+                $file = $request->file('attachment');
+                $file_name = $statement_letter->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
+
+                // Uploading File
+                $file->storePubliclyAs($path, $file_name);
+
+                // Check Upload Success
+                if (Storage::exists($path . '/' . $file_name)) {
+                    // Update Record for Attachment
+                    $statement_letter_update = StatementLetter::where('id', $statement_letter->id)->update([
+                        'attachment' => $path_store . '/' . $file_name,
+                    ]);
+
+                    // Validation Update Attachment Statement Letter Record
+                    if ($statement_letter_update) {
+                        DB::commit();
+                        return redirect()
+                            ->route('archieve.statement-letter.show', ['id' => $statement_letter->id])
+                            ->with(['success' => 'Berhasil Menambahkan Surat Pernyataan']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
+                            ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
                             ->withInput();
                     }
-                }
-
-                // Update Record for Attachment
-                $statement_letter_update = StatementLetter::where('id', $statement_letter->id)->update([
-                    'attachment' => $attachment_collection,
-                ]);
-
-                // Validation Update Attachment Statement Letter Record
-                if ($statement_letter_update) {
-                    DB::commit();
-                    return redirect()
-                        ->route('archieve.statement-letter.show', ['id' => $statement_letter->id])
-                        ->with(['success' => 'Berhasil Menambahkan Surat Pernyataan']);
                 } else {
                     // Failed and Rollback
                     DB::rollBack();
                     return redirect()
                         ->back()
-                        ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
+                        ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
                         ->withInput();
                 }
             } else {
@@ -233,60 +273,111 @@ class StatementLetterController extends Controller
                         Storage::makeDirectory($path);
                     }
 
-                    $statement_letter_attachment = json_decode($statement_letter->attachment);
+                    // $statement_letter_attachment = json_decode($statement_letter->attachment);
 
-                    foreach ($statement_letter_attachment as $last_attachment) {
-                        // File Last Record
-                        $last_attachment_exploded = explode('/', $last_attachment);
-                        $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
+                    // foreach ($statement_letter_attachment as $last_attachment) {
+                    //     // File Last Record
+                    //     $last_attachment_exploded = explode('/', $last_attachment);
+                    //     $file_name_record = $last_attachment_exploded[count($last_attachment_exploded) - 1];
 
-                        // Remove Last Record
-                        if (Storage::exists($path . '/' . $file_name_record)) {
-                            Storage::delete($path . '/' . $file_name_record);
-                        }
+                    //     // Remove Last Record
+                    //     if (Storage::exists($path . '/' . $file_name_record)) {
+                    //         Storage::delete($path . '/' . $file_name_record);
+                    //     }
+                    // }
+
+                    // $attachment_collection = [];
+
+                    // foreach ($request->file('attachment') as $index => $attachment) {
+                    //     // File Upload Configuration
+                    //     $exploded_name = explode(' ', strtolower($request->name));
+                    //     $file_name_config = implode('_', $exploded_name);
+                    //     $file_name = $statement_letter->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+
+                    //     // Uploading File
+                    //     $attachment->storePubliclyAs($path, $file_name);
+
+                    //     // Check Upload Success
+                    //     if (Storage::exists($path . '/' . $file_name)) {
+                    //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                    //     } else {
+                    //         // Failed and Rollback
+                    //         DB::rollBack();
+                    //         return redirect()
+                    //             ->back()
+                    //             ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
+                    //             ->withInput();
+                    //     }
+                    // }
+
+                    // // Update Record for Attachment
+                    // $statement_letter_attachment_update = $statement_letter->update([
+                    //     'attachment' => $attachment_collection,
+                    // ]);
+
+                    // // Validation Update Attachment Statement Letter Record
+                    // if ($statement_letter_attachment_update) {
+                    //     DB::commit();
+                    //     return redirect()
+                    //         ->route('archieve.statement-letter.show', ['id' => $id])
+                    //         ->with(['success' => 'Berhasil Perbarui Surat Pernyataan']);
+                    // } else {
+                    //     // Failed and Rollback
+                    //     DB::rollBack();
+                    //     return redirect()
+                    //         ->back()
+                    //         ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
+                    //         ->withInput();
+                    // }
+
+                    /**
+                     * Get Filename Attachment Record
+                     */
+                    $picture_record_exploded = explode('/', $statement_letter->attachment);
+                    $file_name_record = $picture_record_exploded[count($picture_record_exploded) - 1];
+
+                    /**
+                     * Remove Has File Exist
+                     */
+                    if (Storage::exists($path . '/' . $file_name_record)) {
+                        Storage::delete($path . '/' . $file_name_record);
                     }
 
-                    $attachment_collection = [];
+                    $exploded_name = explode(' ', strtolower($request->name));
+                    $file_name_config = implode('_', $exploded_name);
+                    $file = $request->file('attachment');
+                    $file_name = $statement_letter->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
 
-                    foreach ($request->file('attachment') as $index => $attachment) {
-                        // File Upload Configuration
-                        $exploded_name = explode(' ', strtolower($request->name));
-                        $file_name_config = implode('_', $exploded_name);
-                        $file_name = $statement_letter->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                    // Uploading File
+                    $file->storePubliclyAs($path, $file_name);
 
-                        // Uploading File
-                        $attachment->storePubliclyAs($path, $file_name);
+                    // Check Upload Success
+                    if (Storage::exists($path . '/' . $file_name)) {
+                        // Update Record for Attachment
+                        $statement_letter_attachment_update = $statement_letter->update([
+                            'attachment' => $path_store . '/' . $file_name,
+                        ]);
 
-                        // Check Upload Success
-                        if (Storage::exists($path . '/' . $file_name)) {
-                            array_push($attachment_collection, $path_store . '/' . $file_name);
+                        // Validation Update Attachment Statement Letter Record
+                        if ($statement_letter_attachment_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.statement-letter.show', ['id' => $id])
+                                ->with(['success' => 'Berhasil Perbarui Surat Pernyataan']);
                         } else {
                             // Failed and Rollback
                             DB::rollBack();
                             return redirect()
                                 ->back()
-                                ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
+                                ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
                                 ->withInput();
                         }
-                    }
-
-                    // Update Record for Attachment
-                    $statement_letter_attachment_update = $statement_letter->update([
-                        'attachment' => $attachment_collection,
-                    ]);
-
-                    // Validation Update Attachment Statement Letter Record
-                    if ($statement_letter_attachment_update) {
-                        DB::commit();
-                        return redirect()
-                            ->route('archieve.statement-letter.show', ['id' => $id])
-                            ->with(['success' => 'Berhasil Perbarui Surat Pernyataan']);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Update Lampiran Surat Pernyataan'])
+                            ->with(['failed' => 'Gagal Upload Lampiran Surat Pernyataan'])
                             ->withInput();
                     }
                 } else {

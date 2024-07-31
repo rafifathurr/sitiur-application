@@ -176,12 +176,12 @@ class OutgoingMailController extends Controller
                 // Check Upload Success
                 if (Storage::exists($path . '/' . $file_name)) {
                     // Update Record for Attachment
-                    $incoming_mail_update = OutgoingMail::where('id', $outgoing_mail->id)->update([
+                    $outgoing_mail_update = OutgoingMail::where('id', $outgoing_mail->id)->update([
                         'attachment' => $path_store . '/' . $file_name,
                     ]);
 
-                    // Validation Update Attachment Incoming Mail Record
-                    if ($incoming_mail_update) {
+                    // Validation Update Attachment Outgoing Mail Record
+                    if ($outgoing_mail_update) {
                         DB::commit();
                         return redirect()
                             ->route('archieve.outgoing-mail.show', ['id' => $outgoing_mail->id])
@@ -384,7 +384,7 @@ class OutgoingMailController extends Controller
                             'attachment' => $path_store . '/' . $file_name,
                         ]);
 
-                        // Validation Update Attachment Incoming Mail Record
+                        // Validation Update Attachment Outgoing Mail Record
                         if ($outgoing_mail_attachment_update) {
                             DB::commit();
                             return redirect()
