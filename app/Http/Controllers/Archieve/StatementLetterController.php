@@ -36,9 +36,10 @@ class StatementLetterController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
         $statement_letters = StatementLetter::with(['institution'])
+            ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
             ->get();
