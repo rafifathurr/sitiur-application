@@ -38,11 +38,13 @@ class IncomingMailController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
         $incoming_mails = IncomingMail::with(['classification', 'typeMailContent', 'institution'])
+            ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration

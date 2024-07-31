@@ -23,13 +23,25 @@
 
     function dataTable() {
         const url = $('#datatable-url').val();
+        let year = $('#year').val();
+
+        let table = $('#datatable').DataTable({
+            destroy: true
+        });
+
+        table.rows().remove().draw();
+
         $('#datatable').DataTable({
             autoWidth: false,
             responsive: true,
             processing: true,
             serverSide: true,
+            destroy: true,
             ajax: {
                 url: url,
+                data: {
+                    year: year,
+                },
                 error: function(xhr, error, code) {
                     alertError(xhr.statusText);
                 }

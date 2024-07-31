@@ -6,10 +6,20 @@
                 <div class="card-body p-0">
                     <div class="az-dashboard-one-title">
                         <h4 class="az-dashboard-title" id="title">Daftar Surat Keluar</h4>
-                        <a href="{{ route('archieve.outgoing-mail.create') }}" class="btn btn-sm rounded-5 btn-primary">
-                            <i class="fas fa-plus mr-1"></i>
-                            Tambah Surat Keluar
-                        </a>
+                        <div class="my-auto text-right">
+                            <select class="form-control my-3" id="year" name="year" onchange="dataTable()">
+                                <option disabled hidden selected>Pilih Tahun</option>
+                                @for ($year = date('Y'); $year > date('Y') - 3; $year--)
+                                    <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>
+                                        {{ $year }}
+                                    </option>
+                                @endfor
+                            </select>
+                            <a href="{{ route('archieve.outgoing-mail.create') }}" class="btn btn-sm rounded-5 btn-primary">
+                                <i class="fas fa-plus mr-1"></i>
+                                Tambah Surat Keluar
+                            </a>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <input type="hidden" id="datatable-url" value="{{ $dt_route }}">

@@ -38,11 +38,13 @@ class OutgoingMailController extends Controller
     /**
      * Show datatable of resource.
      */
-    public function dataTable()
+    public function dataTable(Request $request)
     {
         $outgoing_mails = OutgoingMail::with(['classification', 'typeMailContent', 'institution'])
+            ->whereYear('date', $request->year)
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
+            ->orderBy('date', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration
