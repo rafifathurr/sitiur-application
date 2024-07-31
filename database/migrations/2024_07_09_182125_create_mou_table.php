@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('name');
             $table->date('date');
             $table->text('description')->nullable();
-            $table->json('attachment')->nullable();
+            $table->text('attachment')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->integer('deleted_by')->nullable();
