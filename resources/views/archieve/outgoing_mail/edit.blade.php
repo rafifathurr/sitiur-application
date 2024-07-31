@@ -62,9 +62,9 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <span class="input-group-text bg-warning" onclick="resetLevel()" title="Reset">
+                            <a class="btn btn-warning" onclick="resetLevel()" title="Reset">
                                 <i class="fas fa-undo mr-1"></i> Reset
-                            </span>
+                            </a>
                         </div>
                         <p class="text-danger py-1">* Diisi Jika Bersumber Dari Instansi Polri</p>
                     </div>

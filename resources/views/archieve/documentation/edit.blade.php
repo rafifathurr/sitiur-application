@@ -15,8 +15,8 @@
                         value="{{ !is_null($documentation->institution_id) ? $documentation->institution->level : $documentation->institution_id }}">
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Nama" value="{{ $documentation->name }}" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
+                            value="{{ $documentation->name }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
@@ -34,9 +34,9 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <span class="input-group-text bg-warning" onclick="resetLevel()" title="Reset">
+                            <a class="btn btn-warning" onclick="resetLevel()" title="Reset">
                                 <i class="fas fa-undo mr-1"></i> Reset
-                            </span>
+                            </a>
                         </div>
                         <p class="text-danger py-1">* Diisi Jika Bersumber Dari Instansi Polri</p>
                     </div>
