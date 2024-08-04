@@ -83,7 +83,7 @@ class MouController extends Controller
                 'name' => 'required',
                 'date' => 'required',
                 'type' => 'required',
-                'attachment' => 'required',
+                // 'attachment' => 'required',
             ]);
 
             DB::beginTransaction();
@@ -112,86 +112,93 @@ class MouController extends Controller
                     Storage::makeDirectory($path);
                 }
 
-                // $attachment_collection = [];
+                if (!empty($request->allFiles())) {
+                    // $attachment_collection = [];
 
-                // foreach ($request->file('attachment') as $index => $attachment) {
-                //     // File Upload Configuration
-                //     $exploded_name = explode(' ', strtolower($request->name));
-                //     $file_name_config = implode('_', $exploded_name);
-                //     $file_name = $mou->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
+                    // foreach ($request->file('attachment') as $index => $attachment) {
+                    //     // File Upload Configuration
+                    //     $exploded_name = explode(' ', strtolower($request->name));
+                    //     $file_name_config = implode('_', $exploded_name);
+                    //     $file_name = $mou->id . '_' . ($index + 1) . '_' . $file_name_config . '.' . $attachment->getClientOriginalExtension();
 
-                //     // Uploading File
-                //     $attachment->storePubliclyAs($path, $file_name);
+                    //     // Uploading File
+                    //     $attachment->storePubliclyAs($path, $file_name);
 
-                //     // Check Upload Success
-                //     if (Storage::exists($path . '/' . $file_name)) {
-                //         array_push($attachment_collection, $path_store . '/' . $file_name);
-                //     } else {
-                //         // Failed and Rollback
-                //         DB::rollBack();
-                //         return redirect()
-                //             ->back()
-                //             ->with(['failed' => 'Gagal Upload Lampiran MOU'])
-                //             ->withInput();
-                //     }
-                // }
+                    //     // Check Upload Success
+                    //     if (Storage::exists($path . '/' . $file_name)) {
+                    //         array_push($attachment_collection, $path_store . '/' . $file_name);
+                    //     } else {
+                    //         // Failed and Rollback
+                    //         DB::rollBack();
+                    //         return redirect()
+                    //             ->back()
+                    //             ->with(['failed' => 'Gagal Upload Lampiran MOU'])
+                    //             ->withInput();
+                    //     }
+                    // }
 
-                // // Update Record for Attachment
-                // $mou_update = Mou::where('id', $mou->id)->update([
-                //     'attachment' => $attachment_collection,
-                // ]);
+                    // // Update Record for Attachment
+                    // $mou_update = Mou::where('id', $mou->id)->update([
+                    //     'attachment' => $attachment_collection,
+                    // ]);
 
-                // // Validation Update Attachment MOU Record
-                // if ($mou_update) {
-                //     DB::commit();
-                //     return redirect()
-                //         ->route('archieve.mou.show', ['id' => $mou->id])
-                //         ->with(['success' => 'Berhasil Menambahkan MOU']);
-                // } else {
-                //     // Failed and Rollback
-                //     DB::rollBack();
-                //     return redirect()
-                //         ->back()
-                //         ->with(['failed' => 'Gagal Update Lampiran MOU'])
-                //         ->withInput();
-                // }
+                    // // Validation Update Attachment MOU Record
+                    // if ($mou_update) {
+                    //     DB::commit();
+                    //     return redirect()
+                    //         ->route('archieve.mou.show', ['id' => $mou->id])
+                    //         ->with(['success' => 'Berhasil Menambahkan MOU']);
+                    // } else {
+                    //     // Failed and Rollback
+                    //     DB::rollBack();
+                    //     return redirect()
+                    //         ->back()
+                    //         ->with(['failed' => 'Gagal Update Lampiran MOU'])
+                    //         ->withInput();
+                    // }
 
-                $exploded_name = explode(' ', strtolower($request->name));
-                $file_name_config = implode('_', $exploded_name);
-                $file = $request->file('attachment');
-                $file_name = $mou->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
+                    $exploded_name = explode(' ', strtolower($request->name));
+                    $file_name_config = implode('_', $exploded_name);
+                    $file = $request->file('attachment');
+                    $file_name = $mou->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
 
-                // Uploading File
-                $file->storePubliclyAs($path, $file_name);
+                    // Uploading File
+                    $file->storePubliclyAs($path, $file_name);
 
-                // Check Upload Success
-                if (Storage::exists($path . '/' . $file_name)) {
-                    // Update Record for Attachment
-                    $mou_update = Mou::where('id', $mou->id)->update([
-                        'attachment' => $path_store . '/' . $file_name,
-                    ]);
+                    // Check Upload Success
+                    if (Storage::exists($path . '/' . $file_name)) {
+                        // Update Record for Attachment
+                        $mou_update = Mou::where('id', $mou->id)->update([
+                            'attachment' => $path_store . '/' . $file_name,
+                        ]);
 
-                    // Validation Update Attachment MOU Record
-                    if ($mou_update) {
-                        DB::commit();
-                        return redirect()
-                            ->route('archieve.mou.show', ['id' => $mou->id])
-                            ->with(['success' => 'Berhasil Menambahkan MOU']);
+                        // Validation Update Attachment MOU Record
+                        if ($mou_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.mou.show', ['id' => $mou->id])
+                                ->with(['success' => 'Berhasil Menambahkan MOU']);
+                        } else {
+                            // Failed and Rollback
+                            DB::rollBack();
+                            return redirect()
+                                ->back()
+                                ->with(['failed' => 'Gagal Update Lampiran MOU'])
+                                ->withInput();
+                        }
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
                         return redirect()
                             ->back()
-                            ->with(['failed' => 'Gagal Update Lampiran MOU'])
+                            ->with(['failed' => 'Gagal Upload Lampiran MOU'])
                             ->withInput();
                     }
                 } else {
-                    // Failed and Rollback
-                    DB::rollBack();
+                    DB::commit();
                     return redirect()
-                        ->back()
-                        ->with(['failed' => 'Gagal Upload Lampiran MOU'])
-                        ->withInput();
+                        ->route('archieve.mou.show', ['id' => $mou->id])
+                        ->with(['success' => 'Berhasil Menambahkan MOU']);
                 }
             } else {
                 // Failed and Rollback
