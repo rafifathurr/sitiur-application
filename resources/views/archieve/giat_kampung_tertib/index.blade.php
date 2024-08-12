@@ -18,7 +18,7 @@
                             <a href="{{ route('archieve.giat-kampung-tertib.create') }}"
                                 class="btn btn-sm rounded-5 btn-primary">
                                 <i class="fas fa-plus mr-1"></i>
-                                Tambah Giat Anev
+                                Tambah Giat Kampung Tertib
                             </a>
                         </div>
                     </div>
