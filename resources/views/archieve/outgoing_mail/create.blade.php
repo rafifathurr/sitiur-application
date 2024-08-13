@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label for="attachment">Lampiran <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" name="attachment" id="documentInput"
-                            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
                         {{-- <p class="text-danger py-1">* .pdf .docx .xlsx Max Size 2MB</p> --}}
                         <p class="text-danger py-1">* .pdf .docx .xlsx .pptx</p>
                         <iframe id="documentPreview" class="w-100 mt-3 d-none" style="height: 600px;"></iframe>
