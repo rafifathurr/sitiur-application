@@ -256,7 +256,7 @@ class GiatKampungTertibController extends Controller
         try {
             // Request Validation
             $request->validate([
-                'number_giat' => 'required',
+                // 'number_giat' => 'required',
                 'name' => 'required',
                 'date' => 'required',
             ]);
