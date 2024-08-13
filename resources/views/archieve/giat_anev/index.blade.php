@@ -27,7 +27,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nomor</th>
+                                    {{-- <th>Nomor</th> --}}
                                     <th>Tanggal</th>
                                     <th>Instansi</th>
                                     <th>Judul</th>

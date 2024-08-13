@@ -30,6 +30,8 @@
                                     <th>No</th>
                                     <th>Nomor</th>
                                     <th>Tanggal</th>
+                                    <th>Durasi</th>
+                                    <th>Tahun Akhir</th>
                                     <th>Tipe</th>
                                     <th>Instansi</th>
                                     <th>Judul</th>

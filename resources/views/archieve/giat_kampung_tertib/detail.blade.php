@@ -7,12 +7,12 @@
                     <h4 class="az-dashboard-title" id="title">Detail Giat Kampung Tertib</h4>
                 </div>
                 <div class="py-1">
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nomor</label>
                         <div class="col-sm-9 col-form-label">
                             {{ $giat_kampung_tertib->number_giat }}
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9 col-form-label">
@@ -71,16 +71,17 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-form-label">Lampiran</label>
                             <div class="col-sm-12 col-form-label">
-                                <iframe class="w-100 mt-3" style="height: 1040px;" src="{{ asset($giat_kampung_tertib->attachment) }}"
-                                    width="1000" height="1000" frameborder="0"></iframe>
+                                <iframe class="w-100 mt-3" style="height: 1040px;"
+                                    src="{{ asset($giat_kampung_tertib->attachment) }}" width="1000" height="1000"
+                                    frameborder="0"></iframe>
                             </div>
                         </div>
                     @else
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Lampiran</label>
                             <div class="col-sm-9 col-form-label">
-                                <a href="{{ asset($giat_kampung_tertib->attachment) }}" class="text-primary" target="_blank"><i
-                                        class="fas fa-download mr-1"></i> Lampiran Giat Kampung Tertib</a>
+                                <a href="{{ asset($giat_kampung_tertib->attachment) }}" class="text-primary"
+                                    target="_blank"><i class="fas fa-download mr-1"></i> Lampiran Giat Kampung Tertib</a>
                             </div>
                         </div>
                     @endif

@@ -51,8 +51,14 @@ class MouController extends Controller
             ->addColumn('date', function ($data) {
                 return date('d F Y', strtotime($data->date));
             })
+            ->addColumn('duration', function ($data) {
+                return $data->duration . ' Tahun';
+            })
+            ->addColumn('end_year', function ($data) {
+                return date('Y', strtotime($data->date)) + $data->duration;
+            })
             ->addColumn('type', function ($data) {
-                return $data->type == 0 ? 'Korlantas - Kemendikbud' : 'Kewilayahan';
+                return $data->type == 0 ? 'Korlantas - Kemendikbud' : 'Kewilayahan - Disdik Wilayah';
             })
             ->addColumn('institution', function ($data) {
                 return !is_null($data->institution) ? $data->institution->name : 'Kemendikbud';
@@ -64,7 +70,7 @@ class MouController extends Controller
                 $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Dokumen"><i class="fas fa-paperclip"></i></a>';
                 return $btn_action;
             })
-            ->only(['number_mou', 'date', 'type', 'institution', 'name', 'action'])
+            ->only(['number_mou', 'date', 'duration', 'end_year', 'type', 'institution', 'name', 'action'])
             ->rawColumns(['action'])
             ->make(true);
 
@@ -82,6 +88,7 @@ class MouController extends Controller
                 'number_mou' => 'required',
                 'name' => 'required',
                 'date' => 'required',
+                'duration' => 'required',
                 'type' => 'required',
                 // 'attachment' => 'required',
             ]);
@@ -93,6 +100,8 @@ class MouController extends Controller
                 'number_mou' => $request->number_mou,
                 'name' => $request->name,
                 'date' => $request->date,
+                'duration' => $request->duration,
+                'end_year_duration' => date('Y', strtotime($request->date)) + $request->duration,
                 'type' => $request->type,
                 'institution_id' => $request->type == 1 ? $request->institution : null,
                 'description' => $request->description,
@@ -260,6 +269,7 @@ class MouController extends Controller
                 'number_mou' => 'required',
                 'name' => 'required',
                 'date' => 'required',
+                'duration' => 'required',
                 'type' => 'required',
             ]);
 
@@ -270,6 +280,8 @@ class MouController extends Controller
                 'number_mou' => $request->number_mou,
                 'name' => $request->name,
                 'date' => $request->date,
+                'duration' => $request->duration,
+                'end_year_duration' => date('Y', strtotime($request->date)) + $request->duration,
                 'type' => $request->type,
                 'institution_id' => $request->type == 1 ? $request->institution : null,
                 'description' => $request->description,

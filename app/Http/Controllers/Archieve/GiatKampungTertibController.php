@@ -78,7 +78,7 @@ class GiatKampungTertibController extends Controller
         try {
             // Request Validation
             $request->validate([
-                'number_giat' => 'required',
+                // 'number_giat' => 'required',
                 'name' => 'required',
                 'date' => 'required',
                 // 'attachment' => 'required',
@@ -88,7 +88,7 @@ class GiatKampungTertibController extends Controller
 
             // Query Store Giat Kampung Tertib
             $giat_kampung_tertib = GiatKampungTertib::lockforUpdate()->create([
-                'number_giat' => $request->number_giat,
+                // 'number_giat' => $request->number_giat,
                 'name' => $request->name,
                 'date' => $request->date,
                 'institution_id' => $request->institution,

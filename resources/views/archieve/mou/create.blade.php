@@ -25,6 +25,11 @@
                             value="{{ old('date') }}" required>
                     </div>
                     <div class="form-group">
+                        <label for="duration">Durasi Perjanjian (Tahun) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="duration" name="duration"
+                            placeholder="Durasi Perjanjian" min="0" value="{{ old('duration') }}" required>
+                    </div>
+                    <div class="form-group">
                         <label for="type">Tipe MOU <span class="text-danger">*</span></label>
                         <select class="form-control" id="type" name="type" required>
                             <option disabled hidden selected>Pilih Tipe</option>
@@ -32,7 +37,7 @@
                                 Korlantas - Kemendikbud
                             </option>
                             <option value="1" @if (!is_null(old('type')) && old('type') == 1) selected @endif>
-                                Kewilayahan
+                                Kewilayahan - Disdik Wilayah
                             </option>
                         </select>
                     </div>

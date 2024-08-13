@@ -52,10 +52,6 @@
                     searchable: false
                 },
                 {
-                    data: 'number_giat',
-                    defaultContent: '-',
-                },
-                {
                     data: 'date',
                     defaultContent: '-',
                 },

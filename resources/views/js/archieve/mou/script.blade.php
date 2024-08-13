@@ -60,6 +60,14 @@
                     defaultContent: '-',
                 },
                 {
+                    data: 'duration',
+                    defaultContent: '-',
+                },
+                {
+                    data: 'end_year',
+                    defaultContent: '-',
+                },
+                {
                     data: 'type',
                     defaultContent: '-',
                 },
@@ -74,7 +82,7 @@
                 {
                     data: 'action',
                     className: 'text-center',
-                    width: '25%',
+                    width: '20%',
                     defaultContent: '-',
                     orderable: false,
                     searchable: false

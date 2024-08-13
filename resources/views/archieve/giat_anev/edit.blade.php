@@ -13,11 +13,11 @@
                     <input type="hidden" id="level_record"
                         value="{{ !is_null($giat_anev->institution_id) ? $giat_anev->institution->level : $giat_anev->institution_id }}">
                     <input type="hidden" id="institution_record" value="{{ $giat_anev->institution_id }}">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="number_giat">Nomor <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="number_giat" name="number_giat" placeholder="Nomor"
                             value="{{ $giat_anev->number_giat }}" required>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label for="name">Judul <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Judul"

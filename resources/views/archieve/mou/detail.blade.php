@@ -26,9 +26,21 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Durasi Perjanjian</label>
+                        <div class="col-sm-9 col-form-label">
+                            {{ $mou->duration . ' Tahun' }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Tahun Akhir Perjanjian</label>
+                        <div class="col-sm-9 col-form-label">
+                            {{ date('Y', strtotime($mou->date)) + $mou->duration }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Tipe MOU</label>
                         <div class="col-sm-9 col-form-label">
-                            {{ $mou->type == 0 ? 'Korlantas - Kemendikbud' : 'Kewilayahan' }}
+                            {{ $mou->type == 0 ? 'Korlantas - Kemendikbud' : 'Kewilayahan - Disdik Wilayah' }}
                         </div>
                     </div>
                     @if ($mou->type == 0)
@@ -77,9 +89,8 @@
                         <div class="form-group row">
                             <label class="col-sm-12 col-form-label">Lampiran</label>
                             <div class="col-sm-12 col-form-label">
-                                <iframe class="w-100 mt-3" style="height: 1040px;"
-                                    src="{{ asset($mou->attachment) }}" width="1000" height="1000"
-                                    frameborder="0"></iframe>
+                                <iframe class="w-100 mt-3" style="height: 1040px;" src="{{ asset($mou->attachment) }}"
+                                    width="1000" height="1000" frameborder="0"></iframe>
                             </div>
                         </div>
                     @else

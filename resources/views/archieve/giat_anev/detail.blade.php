@@ -7,12 +7,12 @@
                     <h4 class="az-dashboard-title" id="title">Detail Giat Anev Diseminasi</h4>
                 </div>
                 <div class="py-1">
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nomor</label>
                         <div class="col-sm-9 col-form-label">
                             {{ $giat_anev->number_giat }}
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9 col-form-label">
