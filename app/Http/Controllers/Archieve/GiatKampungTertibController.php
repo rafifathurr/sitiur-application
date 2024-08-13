@@ -54,7 +54,7 @@ class GiatKampungTertibController extends Controller
                 return date('d F Y', strtotime($data->date));
             })
             ->addColumn('institution', function ($data) {
-                return !is_null($data->institution_id) ? $data->institution->name : 'Kemendikbud';
+                return !is_null($data->institution_id) ? $data->institution->name : 'Eksternal';
             })
             ->addColumn('action', function ($data) {
                 $btn_action = '<a href="' . route('archieve.giat-kampung-tertib.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';

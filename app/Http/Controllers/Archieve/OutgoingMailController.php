@@ -56,7 +56,7 @@ class OutgoingMailController extends Controller
                 return date('d F Y', strtotime($data->date));
             })
             ->addColumn('institution', function ($data) {
-                return !is_null($data->institution_id) ? $data->institution->name : 'Kemendikbud';
+                return !is_null($data->institution_id) ? $data->institution->name : 'Eksternal';
             })
             ->addColumn('classification', function ($data) {
                 return $data->classification->name;
