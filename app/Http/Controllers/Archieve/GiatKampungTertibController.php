@@ -265,7 +265,7 @@ class GiatKampungTertibController extends Controller
 
             // Query Store Giat Kampung Tertib
             $giat_kampung_tertib_update = GiatKampungTertib::where('id', $id)->update([
-                'number_giat' => $request->number_giat,
+                // 'number_giat' => $request->number_giat,
                 'name' => $request->name,
                 'date' => $request->date,
                 'institution_id' => $request->institution,

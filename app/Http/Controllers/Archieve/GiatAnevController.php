@@ -265,7 +265,7 @@ class GiatAnevController extends Controller
 
             // Query Store Giat Anev Diseminasi
             $giat_anev_update = GiatAnev::where('id', $id)->update([
-                'number_giat' => $request->number_giat,
+                // 'number_giat' => $request->number_giat,
                 'name' => $request->name,
                 'date' => $request->date,
                 'institution_id' => $request->institution,
