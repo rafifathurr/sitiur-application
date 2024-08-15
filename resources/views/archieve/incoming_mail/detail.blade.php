@@ -92,8 +92,10 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Lampiran</label>
                             <div class="col-sm-9 col-form-label">
-                                <a href="{{ asset($incoming_mail->attachment) }}" class="text-primary" target="_blank"><i
-                                        class="fas fa-download mr-1"></i> Lampiran Surat Masuk</a>
+                                @if (!is_null($incoming_mail->attachment))
+                                    <a href="{{ asset($incoming_mail->attachment) }}" class="text-primary"
+                                        target="_blank"><i class="fas fa-download mr-1"></i> Lampiran Surat Masuk</a>
+                                @endif
                             </div>
                         </div>
                     @endif
