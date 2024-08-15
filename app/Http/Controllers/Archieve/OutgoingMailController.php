@@ -47,6 +47,7 @@ class OutgoingMailController extends Controller
             ->whereNull('deleted_by')
             ->whereNull('deleted_at')
             ->orderBy('date', 'ASC')
+            ->orderBy('number', 'ASC')
             ->get();
 
         // DataTables Yajraa Configuration
