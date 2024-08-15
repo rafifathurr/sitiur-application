@@ -84,9 +84,6 @@
                     searchable: false
                 },
             ],
-            order: [
-                [1, 'asc']
-            ]
         });
     }
 
