@@ -47,9 +47,12 @@
                             <select class="form-control" id="level" name="level">
                                 <option disabled hidden selected>Pilih Tingkatan</option>
                                 @foreach ($levels as $level)
-                                    <option value="{{ $level['level'] }}" @if (!is_null(old('level')) && old('level') == $level['level']) selected @endif>
-                                        {{ $level['name'] }}
-                                    </option>
+                                    @if ($level['level'] != 1)
+                                        <option value="{{ $level['level'] }}"
+                                            @if (!is_null(old('level')) && old('level') == $level['level']) selected @endif>
+                                            {{ $level['name'] }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

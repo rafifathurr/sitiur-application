@@ -163,7 +163,7 @@
                         cache: false,
                         success: function(data) {
                             $('.institution_form').html(data);
-                            if (onCreate && $('#type') == 1) {
+                            if (onCreate) {
                                 $('#institution').val($('#institution_record').val()).trigger('change');
                                 onCreate = false;
                             }

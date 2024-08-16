@@ -52,14 +52,16 @@
                             <select class="form-control" id="level" name="level" required>
                                 <option disabled hidden selected>Pilih Tingkatan</option>
                                 @foreach ($levels as $level)
-                                    <option value="{{ $level['level'] }}">
-                                        {{ $level['name'] }}
-                                    </option>
+                                    @if ($level['level'] != 1)
+                                        <option value="{{ $level['level'] }}">
+                                            {{ $level['name'] }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="institution_form">
+                        <div class="institution_form">
+                        </div>
                     </div>
                     {{-- <div class="form-group">
                         <label for="attachment">Lampiran <span class="text-danger">*</span></label>
@@ -161,7 +163,7 @@
                     cache: false,
                     success: function(data) {
                         $('.institution_form').html(data);
-                        if (onCreate && $('#type') == 1) {
+                        if (onCreate && $('#type').val() == 1) {
                             $('#institution').val($('#institution_record').val()).trigger('change');
                             onCreate = false;
                         }
