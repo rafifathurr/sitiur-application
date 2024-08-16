@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="attachment">Lampiran Foto <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="videoInput" name="attachment" accept="image/*">
-                        <p class="text-danger py-1">* .png .jpg .jpeg</p>
+                        <p class="text-danger py-1">* .png .jpg .jpeg (Max 10 MB)</p>
                         <a target="_blank" href="{{ asset($gallery->attachment) }}"><i class="fas fa-download"></i>
                             Lampiran Foto</a>
                     </div>

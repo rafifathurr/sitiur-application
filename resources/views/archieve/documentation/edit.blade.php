@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="videoInput" name="attachment" accept="video/*">
-                        <p class="text-danger py-1">* .mov .mp4</p>
+                        <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
                         <video id="videoPreview" class="w-100 mt-3" controls>
                             <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
                         </video>
