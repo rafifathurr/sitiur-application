@@ -44,7 +44,6 @@
         $('.institution_form_modal').html('');
 
         let level = $(this).find(":selected").val() - 1;
-        console.log(level);
         if ($(this).find(":selected").val() == 1 || $(this).find(":selected").val() == 2) {
             level = 0;
         }

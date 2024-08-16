@@ -167,7 +167,6 @@
                             $('.institution_form').html(data);
 
                             if (onCreate) {
-                                console.log($('#institution_record').val());
                                 $('#institution').val($('#institution_record').val()).trigger('change');
                                 onCreate = false;
                             }
