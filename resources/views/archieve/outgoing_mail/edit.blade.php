@@ -13,6 +13,7 @@
                     @method('patch')
                     <input type="hidden" id="level_record"
                         value="{{ !is_null($outgoing_mail->institution_id) ? $outgoing_mail->institution->level : $outgoing_mail->institution_id }}">
+                    <input type="hidden" id="institution_record" value="{{ $outgoing_mail->institution_id }}">
                     <div class="form-group">
                         <label for="number">Nomor <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="number" name="number" placeholder="Nomor"
@@ -57,7 +58,8 @@
                             <select class="form-control" id="level" name="level">
                                 <option disabled hidden selected>Pilih Tingkatan</option>
                                 @foreach ($levels as $level)
-                                    <option value="{{ $level['level'] }}" @if (!is_null(old('level')) && old('level') == $level['level']) selected @endif>
+                                    <option value="{{ $level['level'] }}"
+                                        @if (!is_null(old('level')) && old('level') == $level['level']) selected @endif>
                                         {{ $level['name'] }}
                                     </option>
                                 @endforeach
@@ -163,7 +165,9 @@
                         cache: false,
                         success: function(data) {
                             $('.institution_form').html(data);
+
                             if (onCreate) {
+                                console.log($('#institution_record').val());
                                 $('#institution').val($('#institution_record').val()).trigger('change');
                                 onCreate = false;
                             }
