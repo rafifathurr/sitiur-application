@@ -461,9 +461,8 @@
                                         <img src="{{ asset($item->attachment) }}" style="width:60%;"
                                             onerror="this.onerror=null;this.src='{{ asset('img/image-not-found.jpg') }}'">
                                         <div class="carousel-caption w-50 m-auto d-md-block">
-                                            <h5>{{ $item->name }}</h5>
+                                            <h4 class="m-auto" style="width:80%">{{ $item->name }}</h4>
                                             <p>{{ date('d F Y', strtotime($item->date)) }}</p>
-                                            <p class="m-auto" style="width:80%">{!! $item->description !!}</p>
                                         </div>
                                     </div>
                                 @endforeach
