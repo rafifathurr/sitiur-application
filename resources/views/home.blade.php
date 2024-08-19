@@ -455,10 +455,10 @@
 
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner text-center">
-                                @foreach ($gallery as $item)
+                                @foreach ($gallery as $index => $item)
                                     <div class="carousel-item @if ($index == 0) active @endif"
                                         data-interval="10">
-                                        <img src="{{ asset($item->attachment) }}" alt="Los Angeles" style="width:50%;"
+                                        <img src="{{ asset($item->attachment) }}" style="width:50%;"
                                             onerror="this.onerror=null;this.src='{{ asset('img/image-not-found.jpg') }}'">
                                         <div class="carousel-caption d-none d-md-block">
                                             <h5>{{ $item->name }}</h5>
