@@ -16,12 +16,12 @@
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
-                            value="{{ $documentation->name }}" required>
+                            value="{{ old('name', $documentation->name) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="date" name="date" placeholder="Tanggal"
-                            value="{{ $documentation->date }}" required>
+                            value="{{ old('date', $documentation->date) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="level">Tingkat Instansi <span class="text-danger">*</span></label>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="video/*">
+                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*">
                         <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
                         <video id="videoPreview" class="w-100 mt-3" controls>
                             <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea class="form-control" name="description" id="description" cols="10" rows="3"
-                            placeholder="Deskripsi">{!! $documentation->description !!}</textarea>
+                            placeholder="Deskripsi">{!! old('description', $documentation->description) !!}</textarea>
                     </div>
                     <div class="text-right mt-5">
                         <a href="{{ route('archieve.documentation.index') }}" class="btn btn-sm btn-danger rounded-5">
@@ -76,13 +76,6 @@
         @include('js.archieve.documentation.script')
         <script>
             let onCreate = true;
-            $('#videoInput').on('change', function(event) {
-                var file = event.target.files[0];
-                var videoPreview = $('#videoPreview');
-                var fileURL = URL.createObjectURL(file);
-                videoPreview.attr('src', fileURL);
-                videoPreview[0].load();
-            });
 
             $('#level').on('change', function() {
                 $('.institution_form').html('');

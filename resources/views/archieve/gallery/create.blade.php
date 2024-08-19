@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label for="attachment">Lampiran Foto <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="image/*"
+                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="image/*"
                             required>
                         <p class="text-danger py-1">* .png .jpg .jpeg (Max 10 MB)</p>
                     </div>

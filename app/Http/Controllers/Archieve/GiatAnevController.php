@@ -78,17 +78,14 @@ class GiatAnevController extends Controller
         try {
             // Request Validation
             $request->validate([
-                // 'number_giat' => 'required',
                 'name' => 'required',
                 'date' => 'required',
-                // 'attachment' => 'required',
             ]);
 
             DB::beginTransaction();
 
             // Query Store Giat Anev Diseminasi
             $giat_anev = GiatAnev::lockforUpdate()->create([
-                // 'number_giat' => $request->number_giat,
                 'name' => $request->name,
                 'date' => $request->date,
                 'institution_id' => $request->institution,
@@ -256,7 +253,6 @@ class GiatAnevController extends Controller
         try {
             // Request Validation
             $request->validate([
-                // 'number_giat' => 'required',
                 'name' => 'required',
                 'date' => 'required',
             ]);
@@ -265,7 +261,6 @@ class GiatAnevController extends Controller
 
             // Query Store Giat Anev Diseminasi
             $giat_anev_update = GiatAnev::where('id', $id)->update([
-                // 'number_giat' => $request->number_giat,
                 'name' => $request->name,
                 'date' => $request->date,
                 'institution_id' => $request->institution,

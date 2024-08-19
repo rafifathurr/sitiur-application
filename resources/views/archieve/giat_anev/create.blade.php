@@ -9,11 +9,6 @@
                 <form class="forms-sample" method="post" action="{{ route('archieve.giat-anev.store') }}"
                     enctype="multipart/form-data">
                     @csrf
-                    {{-- <div class="form-group">
-                        <label for="number_giat">Nomor <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="number_giat" name="number_giat" placeholder="Nomor"
-                            value="{{ old('number_giat') }}" required>
-                    </div> --}}
                     <div class="form-group">
                         <label for="name">Judul <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Judul"
@@ -82,33 +77,6 @@
         @include('includes.global.institution_modal')
         @include('js.archieve.giat_anev.script')
         <script>
-            $('#documentInput').on('change', function(event) {
-                var file = event.target.files[0];
-                // if (file.size <= 2000000) {
-                //     if (file.type === "application/pdf") {
-                //         var fileURL = URL.createObjectURL(file);
-                //         $('#documentPreview').attr('src', fileURL);
-                //         $('#documentPreview').removeClass('d-none');
-                //     } else {
-                //         $('#documentPreview').addClass('d-none');
-                //         $('#documentPreview').attr('src', '');
-                //     }
-                // } else {
-                //     $('#documentPreview').addClass('d-none');
-                //     $('#documentPreview').attr('src', '');
-                //     $('#documentInput').val('');
-                //     alertError('File Size Lebih Dari 2MB');
-                // }
-                if (file.type === "application/pdf") {
-                    var fileURL = URL.createObjectURL(file);
-                    $('#documentPreview').attr('src', fileURL);
-                    $('#documentPreview').removeClass('d-none');
-                } else {
-                    $('#documentPreview').addClass('d-none');
-                    $('#documentPreview').attr('src', '');
-                }
-            });
-
             $('#level').on('change', function() {
                 $('.institution_form').html('');
 

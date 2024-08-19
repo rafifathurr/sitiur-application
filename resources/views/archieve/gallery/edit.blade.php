@@ -13,16 +13,16 @@
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
-                            value="{{ $gallery->name }}" required>
+                            value="{{ old('name', $gallery->name) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="date" name="date" placeholder="Tanggal"
-                            value="{{ $gallery->date }}" required>
+                            value="{{ old('date', $gallery->date) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="attachment">Lampiran Foto <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="image/*">
+                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="image/*">
                         <p class="text-danger py-1">* .png .jpg .jpeg (Max 10 MB)</p>
                         <a target="_blank" href="{{ asset($gallery->attachment) }}"><i class="fas fa-download"></i>
                             Lampiran Foto</a>
@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea class="form-control" name="description" id="description" cols="10" rows="3"
-                            placeholder="Deskripsi">{!! $gallery->description !!}</textarea>
+                            placeholder="Deskripsi">{!! old('description', $gallery->description) !!}</textarea>
                     </div>
                     <div class="text-right mt-5">
                         <a href="{{ route('archieve.gallery.index') }}" class="btn btn-sm btn-danger rounded-5">

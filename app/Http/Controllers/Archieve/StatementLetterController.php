@@ -78,7 +78,6 @@ class StatementLetterController extends Controller
             $request->validate([
                 'name' => 'required',
                 'date' => 'required',
-                // 'attachment' => 'required',
             ]);
 
             DB::beginTransaction();

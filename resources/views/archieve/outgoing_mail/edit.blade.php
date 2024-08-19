@@ -17,24 +17,24 @@
                     <div class="form-group">
                         <label for="number">Nomor <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="number" name="number" placeholder="Nomor"
-                            value="{{ $outgoing_mail->number }}" required>
+                            value="{{ old('number', $outgoing_mail->number) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Judul Surat <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Judul Surat"
-                            value="{{ $outgoing_mail->name }}" required>
+                            value="{{ old('name', $outgoing_mail->name) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="date" name="date" placeholder="Tanggal"
-                            value="{{ $outgoing_mail->date }}" required>
+                            value="{{ old('date', $outgoing_mail->date) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="classification">Klasifikasi <span class="text-danger">*</span></label>
                         <select class="form-control" id="classification" name="classification">
                             <option disabled hidden selected>Pilih Klasifikasi</option>
                             @foreach ($classifications as $classification)
-                                <option value="{{ $classification->id }}" @if ($outgoing_mail->classification_id == $classification->id) selected @endif>
+                                <option value="{{ $classification->id }}" @if (old('classification_id', $outgoing_mail->classification_id) == $classification->id) selected @endif>
                                     {{ $classification->name }}
                                 </option>
                             @endforeach
@@ -46,7 +46,7 @@
                             <option disabled hidden selected>Pilih Jenis Isi Surat</option>
                             @foreach ($type_mail_contents as $type_mail_content)
                                 <option value="{{ $type_mail_content->id }}"
-                                    @if ($outgoing_mail->type_mail_content_id == $type_mail_content->id) selected @endif>
+                                    @if (old('type_mail_content', $outgoing_mail->type_mail_content_id) == $type_mail_content->id) selected @endif>
                                     {{ $type_mail_content->name }}
                                 </option>
                             @endforeach
@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea class="form-control" name="description" id="description" cols="10" rows="3"
-                            placeholder="Deskripsi">{!! $outgoing_mail->description !!}</textarea>
+                            placeholder="Deskripsi">{!! old('description', $outgoing_mail->description) !!}</textarea>
                     </div>
                     <div class="text-right mt-5">
                         <a href="{{ route('archieve.outgoing-mail.index') }}" class="btn btn-sm btn-danger rounded-5">
@@ -125,33 +125,6 @@
         @include('js.archieve.outgoing_mail.script')
         <script>
             let onCreate = true;
-
-            $('#documentInput').on('change', function(event) {
-                var file = event.target.files[0];
-                // if (file.size <= 2000000) {
-                //     if (file.type === "application/pdf") {
-                //         var fileURL = URL.createObjectURL(file);
-                //         $('#documentPreview').attr('src', fileURL);
-                //         $('#documentPreview').removeClass('d-none');
-                //     } else {
-                //         $('#documentPreview').addClass('d-none');
-                //         $('#documentPreview').attr('src', '');
-                //     }
-                // } else {
-                //     $('#documentPreview').addClass('d-none');
-                //     $('#documentPreview').attr('src', '');
-                //     $('#documentInput').val('');
-                //     alertError('File Size Lebih Dari 2MB');
-                // }
-                if (file.type === "application/pdf") {
-                    var fileURL = URL.createObjectURL(file);
-                    $('#documentPreview').attr('src', fileURL);
-                    $('#documentPreview').removeClass('d-none');
-                } else {
-                    $('#documentPreview').addClass('d-none');
-                    $('#documentPreview').attr('src', '');
-                }
-            });
 
             $('#level').on('change', function() {
                 $('.institution_form').html('');

@@ -17,12 +17,12 @@
                     <div class="form-group">
                         <label for="name">Judul Surat <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Judul Surat"
-                            value="{{ $statement_letter->name }}" required>
+                            value="{{ old('name', $statement_letter->name) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="date" name="date" placeholder="Tanggal"
-                            value="{{ $statement_letter->date }}" required>
+                            value="{{ old('date', $statement_letter->date) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="level">Tingkat Instansi Polri</label>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
                         <textarea class="form-control" name="description" id="description" cols="10" rows="3"
-                            placeholder="Deskripsi">{!! $statement_letter->description !!}</textarea>
+                            placeholder="Deskripsi">{!! old('description', $statement_letter->description) !!}</textarea>
                     </div>
                     <div class="text-right mt-5">
                         <a href="{{ route('archieve.statement-letter.index') }}" class="btn btn-sm btn-danger rounded-5">
@@ -95,33 +95,6 @@
         @include('js.archieve.statement_letter.script')
         <script>
             let onCreate = true;
-
-            $('#documentInput').on('change', function(event) {
-                var file = event.target.files[0];
-                // if (file.size <= 2000000) {
-                //     if (file.type === "application/pdf") {
-                //         var fileURL = URL.createObjectURL(file);
-                //         $('#documentPreview').attr('src', fileURL);
-                //         $('#documentPreview').removeClass('d-none');
-                //     } else {
-                //         $('#documentPreview').addClass('d-none');
-                //         $('#documentPreview').attr('src', '');
-                //     }
-                // } else {
-                //     $('#documentPreview').addClass('d-none');
-                //     $('#documentPreview').attr('src', '');
-                //     $('#documentInput').val('');
-                //     alertError('File Size Lebih Dari 2MB');
-                // }
-                if (file.type === "application/pdf") {
-                    var fileURL = URL.createObjectURL(file);
-                    $('#documentPreview').attr('src', fileURL);
-                    $('#documentPreview').removeClass('d-none');
-                } else {
-                    $('#documentPreview').addClass('d-none');
-                    $('#documentPreview').attr('src', '');
-                }
-            });
 
             $('#level').on('change', function() {
                 $('.institution_form').html('');

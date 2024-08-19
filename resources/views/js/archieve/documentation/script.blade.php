@@ -1,4 +1,19 @@
 <script>
+    $('#documentInput').on('change', function(event) {
+        var file = event.target.files[0];
+        if (file.size <= 10000000) {
+            var file = event.target.files[0];
+            var videoPreview = $('#videoPreview');
+            var fileURL = URL.createObjectURL(file);
+            videoPreview.attr('src', fileURL);
+            videoPreview[0].load();
+        } else {
+            $('#videoPreview').attr('src', '');
+            $('#documentInput').val('');
+            alertError('Ukuran File Lebih Dari 10MB');
+        }
+    });
+
     $(".forms-sample").submit(function(e) {
         e.preventDefault();
         Swal.fire({

@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="videoInput" name="attachment" accept="video/*"
+                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*"
                             required>
                         <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
                         <video id="videoPreview" class="w-100 mt-3" controls>
@@ -71,13 +71,6 @@
         @include('includes.global.institution_modal')
         @include('js.archieve.documentation.script')
         <script>
-            $('#videoInput').on('change', function(event) {
-                var file = event.target.files[0];
-                var videoPreview = $('#videoPreview');
-                var fileURL = URL.createObjectURL(file);
-                videoPreview.attr('src', fileURL);
-                videoPreview[0].load();
-            });
             $('#level').on('change', function() {
                 $('.institution_form').html('');
 

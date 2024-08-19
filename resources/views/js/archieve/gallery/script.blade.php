@@ -1,4 +1,12 @@
 <script>
+    $('#documentInput').on('change', function(event) {
+        var file = event.target.files[0];
+        if (file.size > 10000000) {
+            $('#documentInput').val('');
+            alertError('Ukuran File Lebih Dari 10MB');
+        }
+    });
+
     $(".forms-sample").submit(function(e) {
         e.preventDefault();
         Swal.fire({
