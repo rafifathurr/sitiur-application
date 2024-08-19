@@ -444,7 +444,7 @@
                         </h2>
                     </div>
                     @if (count($gallery) > 0)
-                        <div id="myCarousel" class="carousel carousel-dark slide" data-ride="carousel">
+                        <div id="myCarousel" class="carousel carousel-dark slide m-auto" data-ride="carousel" style="width: 55%;">
                             <!-- Indicators -->
                             <ol class="carousel-indicators">
                                 @foreach ($gallery as $index => $item)
@@ -458,9 +458,9 @@
                                 @foreach ($gallery as $index => $item)
                                     <div class="carousel-item @if ($index == 0) active @endif"
                                         data-interval="10">
-                                        <img src="{{ asset($item->attachment) }}" style="width:60%;"
+                                        <img src="{{ asset($item->attachment) }}" style="width:100%;"
                                             onerror="this.onerror=null;this.src='{{ asset('img/image-not-found.jpg') }}'">
-                                        <div class="carousel-caption w-50 m-auto d-md-block">
+                                        <div class="carousel-caption m-auto d-md-block">
                                             <h4 class="m-auto" style="width:90%">{{ $item->name }}</h4>
                                             <p>{{ date('d F Y', strtotime($item->date)) }}</p>
                                         </div>
