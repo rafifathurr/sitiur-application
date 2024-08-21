@@ -57,7 +57,7 @@ class InstitutionController extends Controller
                     'level' => $request->level,
                 ]);
 
-                if (!isset($request->redirect)) {
+                if (!$request->ajax()) {
                     // Checking Store Data
                     if ($institution) {
                         DB::commit();
@@ -76,29 +76,32 @@ class InstitutionController extends Controller
                     // Checking Store Data
                     if ($institution) {
                         DB::commit();
-                        return redirect()
-                            ->back()
-                            ->with(['success' => 'Berhasil Menambahkan Instansi']);
+                        return response()->json(['data' => $institution], 200);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
-                        return redirect()
-                            ->back()
-                            ->with(['failed' => 'Gagal Tambah Instansi'])
-                            ->withInput();
+                        return response()->json(['message' => 'Gagal Menambahkan Instansi'], 400);
                     }
                 }
             } else {
-                return redirect()
-                    ->back()
-                    ->with(['failed' => 'Nama Sudah Tersedia'])
-                    ->withInput();
+                if (!$request->ajax()) {
+                    return redirect()
+                        ->back()
+                        ->with(['failed' => 'Nama Instansi Sudah Terdaftar'])
+                        ->withInput();
+                } else {
+                    return response()->json(['message' => 'Nama Instansi Sudah Terdaftar'], 400);
+                }
             }
         } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with(['failed' => $e->getMessage()])
-                ->withInput();
+            if (!$request->ajax()) {
+                return redirect()
+                    ->back()
+                    ->with(['failed' => $e->getMessage()])
+                    ->withInput();
+            } else {
+                return response()->json(['message' => $e->getMessage()], 400);
+            }
         }
     }
 

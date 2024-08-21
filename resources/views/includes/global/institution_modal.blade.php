@@ -1,7 +1,7 @@
 <div class="modal fade" id="addInstitution" tabindex="-1" style="z-index: 1051 !important;">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form method="post" action="{{ route('master.institution.store') }}">
+            <form method="post" id="form_modal_institution">
                 @csrf
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLongTitle"><b>Tambah Instansi Polri</b></h4>

@@ -42,15 +42,21 @@
                     </div>
                     <div class="form-group">
                         <label for="type_mail_content">Jenis Isi Surat <span class="text-danger">*</span></label>
-                        <select class="form-control" id="type_mail_content" name="type_mail_content">
-                            <option disabled hidden selected>Pilih Jenis Isi Surat</option>
-                            @foreach ($type_mail_contents as $type_mail_content)
-                                <option value="{{ $type_mail_content->id }}"
-                                    @if (old('type_mail_content', $outgoing_mail->type_mail_content_id) == $type_mail_content->id) selected @endif>
-                                    {{ $type_mail_content->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="input-group">
+                            <select class="form-control" id="type_mail_content" name="type_mail_content">
+                                <option disabled hidden selected>Pilih Jenis Isi Surat</option>
+                                @foreach ($type_mail_contents as $type_mail_content)
+                                    <option value="{{ $type_mail_content->id }}"
+                                        @if (old('type_mail_content', $outgoing_mail->type_mail_content_id) == $type_mail_content->id) selected @endif>
+                                        {{ $type_mail_content->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <a class="btn btn-primary" title="Tambah Jenis" data-toggle="modal"
+                                data-target="#addTypeMailContent">
+                                <i class="fas fa-plus mr-1"></i> Tambah Jenis
+                            </a>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="level">Tingkat Instansi Polri</label>

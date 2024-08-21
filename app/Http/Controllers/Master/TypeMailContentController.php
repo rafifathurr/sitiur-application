@@ -75,7 +75,7 @@ class TypeMailContentController extends Controller
                     'name' => $request->name,
                 ]);
 
-                if (!isset($request->redirect)) {
+                if (!$request->ajax()) {
                     // Checking Store Data
                     if ($type_mail_content) {
                         DB::commit();
@@ -94,29 +94,35 @@ class TypeMailContentController extends Controller
                     // Checking Store Data
                     if ($type_mail_content) {
                         DB::commit();
-                        return redirect()
-                            ->back()
-                            ->with(['success' => 'Berhasil Menambahkan Jenis Isi Surat']);
+
+                        $type_mail_content_data = TypeMailContent::whereNull('deleted_at')->get();
+
+                        return response()->json(['data' => $type_mail_content_data], 200);
                     } else {
                         // Failed and Rollback
                         DB::rollBack();
-                        return redirect()
-                            ->back()
-                            ->with(['failed' => 'Gagal Tambah Jenis Isi Surat'])
-                            ->withInput();
+                        return response()->json(['message' => 'Gagal Menambahkan Jenis Isi Surat'], 400);
                     }
                 }
             } else {
-                return redirect()
-                    ->back()
-                    ->with(['failed' => 'Nama Sudah Tersedia'])
-                    ->withInput();
+                if (!$request->ajax()) {
+                    return redirect()
+                        ->back()
+                        ->with(['failed' => 'Jenis Isi Surat Sudah Terdaftar'])
+                        ->withInput();
+                } else {
+                    return response()->json(['message' => 'Jenis Isi Surat Sudah Terdaftar'], 400);
+                }
             }
         } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with(['failed' => $e->getMessage()])
-                ->withInput();
+            if (!$request->ajax()) {
+                return redirect()
+                    ->back()
+                    ->with(['failed' => $e->getMessage()])
+                    ->withInput();
+            } else {
+                return response()->json(['message' => $e->getMessage()], 400);
+            }
         }
     }
 
