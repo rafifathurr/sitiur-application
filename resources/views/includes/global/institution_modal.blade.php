@@ -43,7 +43,7 @@
     $('#level_select').on('change', function() {
         $('.institution_form_modal').html('');
 
-        if ($(this).find(":selected").val() != '' || !isNaN($(this).find(":selected").val())) {
+        if ($(this).find(":selected").val() != '' && !isNaN($(this).find(":selected").val())) {
             let level = $(this).find(":selected").val() - 1;
             if ($(this).find(":selected").val() == 1 || $(this).find(":selected").val() == 2) {
                 level = 0;
