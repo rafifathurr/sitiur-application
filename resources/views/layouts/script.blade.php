@@ -32,7 +32,6 @@
         $('#level').val('').trigger('change');
     }
 
-
     $("#form_modal_institution").submit(function(e) {
         e.preventDefault();
         Swal.fire({
@@ -56,6 +55,10 @@
                     data: $("#form_modal_institution").serialize(),
                     success: function(data) {
                         $('#level').val($('#level').val()).trigger('change');
+                        $('#form_modal_institution #level_select').val('').trigger(
+                        'change');
+                        $('#form_modal_institution #name').val('');
+
                         $('#addInstitution').modal('hide');
                         alertSuccess("Berhasil Menambahkan Instansi");
                     },
@@ -92,12 +95,20 @@
                         $('#addTypeMailContent').modal('hide');
                         $('#type_mail_content').empty();
 
+                        $('#type_mail_content').append($('<option>', {
+                            value: '',
+                            text: 'Pilih Jenis Isi Surat'
+                        }).attr('hidden', true));
+
                         data.data.forEach(function(item, index) {
                             $('#type_mail_content').append($('<option>', {
                                 value: item.id,
                                 text: item.name
                             }));
                         });
+
+                        $('#form_modal_type_mail_content #name').val('');
+                        $('#type_mail_content').val('').trigger('change');
 
                         alertSuccess("Berhasil Menambahkan Jenis Isi Surat");
                     },

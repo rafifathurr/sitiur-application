@@ -43,20 +43,22 @@
     $('#level_select').on('change', function() {
         $('.institution_form_modal').html('');
 
-        let level = $(this).find(":selected").val() - 1;
-        if ($(this).find(":selected").val() == 1 || $(this).find(":selected").val() == 2) {
-            level = 0;
-        }
-        $.ajax({
-            url: '{{ url('institution/get-institution') }}/' + level + '/0',
-            type: 'GET',
-            cache: false,
-            success: function(data) {
-                $('.institution_form_modal').html(data);
-            },
-            error: function(xhr, error, code) {
-                alertError(error);
+        if ($(this).find(":selected").val() != '') {
+            let level = $(this).find(":selected").val() - 1;
+            if ($(this).find(":selected").val() == 1 || $(this).find(":selected").val() == 2) {
+                level = 0;
             }
-        });
+            $.ajax({
+                url: '{{ url('institution/get-institution') }}/' + level + '/0',
+                type: 'GET',
+                cache: false,
+                success: function(data) {
+                    $('.institution_form_modal').html(data);
+                },
+                error: function(xhr, error, code) {
+                    alertError(error);
+                }
+            });
+        }
     });
 </script>
