@@ -1,4 +1,4 @@
-<div class="modal fade" id="addTypeMailContent" tabindex="-1" style="z-index: 1051 !important;">
+<div class="modal fade" id="addTypeMailContent">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form method="post" id="form_modal_type_mail_content">

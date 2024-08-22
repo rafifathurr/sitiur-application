@@ -14,8 +14,6 @@ class Controller extends BaseController
     public function getInstitution(int $level, int $global)
     {
         if ($global == 1) {
-            $data['levels'] = Institution::getLevel();
-
             if ($level == 1) {
                 $data['institutions'] = Institution::whereNull('deleted_at')
                     ->whereIn('level', [$level, 0])
@@ -26,9 +24,8 @@ class Controller extends BaseController
 
             return view('includes.global.institution_form', $data);
         } else {
-            $data['levels'] = Institution::getLevel();
             $data['institutions'] = Institution::whereNull('deleted_at')->where('level', $level)->get();
-            return view('includes.institution.form', $data);
+            return view('includes.global.institution_form_modal', $data);
         }
     }
 }
