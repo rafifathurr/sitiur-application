@@ -14,11 +14,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
 
     /**
      * Register the exception handling callbacks for the application.
@@ -41,6 +37,16 @@ class Handler extends ExceptionHandler
                 } else {
                     return redirect()->route('logout');
                 }
+            }
+
+            if ($exception->getStatusCode() == 404) {
+                return redirect()
+                    ->back()
+                    ->with(['failed' => 'URL Tidak Ditemukan']);
+            }
+
+            if ($exception->getStatusCode() == 419) {
+                return redirect()->route('logout');
             }
         }
         return parent::render($request, $exception);
