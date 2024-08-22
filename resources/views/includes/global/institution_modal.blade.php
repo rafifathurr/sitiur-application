@@ -14,7 +14,7 @@
                         <input type="hidden" name="redirect" value="true">
                         <label for="level">Tingkat Instansi Polri <span class="text-danger">*</span></label>
                         <select class="form-control" id="level_select" name="level" required>
-                            <option disabled hidden selected>Pilih Tingkatan</option>
+                            <option value="" disabled hidden selected>Pilih Tingkatan</option>
                             @foreach ($levels as $level)
                                 <option value="{{ $level['level'] }}" @if (!is_null(old('level')) && old('level') == $level['level']) selected @endif>
                                     {{ $level['name'] }}
