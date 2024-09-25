@@ -51,9 +51,16 @@
                     <div class="form-group">
                         <label>Lampiran Video</label>
                         <div class="col-sm-12 rounded-5 border border-1-grey mt-3">
-                            <video id="videoPreview" class="w-100 mt-3" controls>
-                                <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
-                            </video>
+                            @if (!is_null($documentation->attachment))
+                                <video id="videoPreview" class="w-100 mt-3" controls>
+                                    <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
+                                </video>
+                            @else
+                                <iframe id="streamPreview" class="w-100 mt-3"
+                                    src="{{ implode('embed/', explode('watch?v=', $documentation->link_attachment)) }}"
+                                    style="height: 700px;">
+                                </iframe>
+                            @endif
                         </div>
                     </div>
                     <div class="p-3 border border-1 rounded-5">

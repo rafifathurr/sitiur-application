@@ -42,13 +42,38 @@
                     </div>
                     <div class="institution_form">
                     </div>
-                    <div class="form-group">
-                        <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*">
-                        <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
-                        <video id="videoPreview" class="w-100 mt-3" controls>
-                            <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
-                        </video>
+                    <div class="form-group custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="has_link_attachment"
+                            id="has_link_attachment" onchange="showFormLink(this)"
+                            @if (!is_null($documentation->link_attachment)) checked @endif>
+                        <label class="custom-control-label" for="has_link_attachment">Link Lampiran</label>
+                    </div>
+                    <div id="link_attachment_form" @if (is_null($documentation->link_attachment)) class="d-none" @endif>
+                        <div class="form-group">
+                            <label for="attachment">Link Lampiran <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="link_attachment" name="link_attachment"
+                                @if (!is_null($documentation->link_attachment)) value="{{ $documentation->link_attachment }}" @endif>
+                            <p class="text-danger py-1">* Link Url Youtube</p>
+                        </div>
+                        <div class="form-group">
+                            <iframe @if (!is_null($documentation->link_attachment)) src="{{ implode('embed/', explode('watch?v=', $documentation->link_attachment)) }}" @endif
+                                id="streamPreview" class="w-100 mt-3" style="height: 700px;"></iframe>
+                        </div>
+                    </div>
+                    <div id="upload_attachment_form" @if (!is_null($documentation->link_attachment)) class="d-none" @endif>
+                        <div class="form-group">
+                            <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*"
+                                required>
+                            <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
+                        </div>
+                        <div class="form-group">
+                            <video id="videoPreview" class="w-100 mt-3" controls>
+                                @if (is_null($documentation->link_attachment))
+                                    <source src="{{ asset($documentation->attachment) }}" type="video/mp4">
+                                @endif
+                            </video>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>

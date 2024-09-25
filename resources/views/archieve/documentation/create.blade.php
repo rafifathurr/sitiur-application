@@ -11,8 +11,8 @@
                     @csrf
                     <div class="form-group">
                         <label for="name">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Nama" value="{{ old('name') }}" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama"
+                            value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Tanggal <span class="text-danger">*</span></label>
@@ -38,13 +38,32 @@
                     </div>
                     <div class="institution_form">
                     </div>
-                    <div class="form-group">
-                        <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*"
-                            required>
-                        <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
-                        <video id="videoPreview" class="w-100 mt-3" controls>
-                        </video>
+                    <div class="form-group custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="has_link_attachment"
+                            id="has_link_attachment" onchange="showFormLink(this)">
+                        <label class="custom-control-label" for="has_link_attachment">Link Lampiran</label>
+                    </div>
+                    <div id="link_attachment_form" class="d-none">
+                        <div class="form-group">
+                            <label for="attachment">Link Lampiran <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="link_attachment" name="link_attachment">
+                            <p class="text-danger py-1">* Link Url Youtube</p>
+                        </div>
+                        <div class="form-group">
+                            <iframe src="" id="streamPreview" class="w-100 mt-3" style="height: 700px;"></iframe>
+                        </div>
+                    </div>
+                    <div id="upload_attachment_form">
+                        <div class="form-group">
+                            <label for="attachment">Lampiran Video <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="documentInput" name="attachment" accept="video/*"
+                                required>
+                            <p class="text-danger py-1">* .mov .mp4 (Max 10 MB)</p>
+                        </div>
+                        <div class="form-group">
+                            <video id="videoPreview" class="w-100 mt-3" controls>
+                            </video>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="description">Deskripsi</label>

@@ -1,6 +1,8 @@
 <script>
     $('#documentInput').on('change', function(event) {
         var file = event.target.files[0];
+        $('#link_attachment').val('');
+        $('#streamPreview').attr('src', '');
         if (file.size <= 10000000) {
             var file = event.target.files[0];
             var videoPreview = $('#videoPreview');
@@ -11,6 +13,21 @@
             $('#videoPreview').attr('src', '');
             $('#documentInput').val('');
             alertError('Ukuran File Lebih Dari 10MB');
+        }
+    });
+
+    $('#link_attachment').on('input', function(event) {
+        let matches = event.target.value.match(/watch\?v=([a-zA-Z0-9\-_]+)/);
+        $('#documentInput').val('');
+        $('#videoPreview').attr('src', '');
+        if (matches) {
+            $('#link_attachment').removeClass('is-invalid');
+            $('#link_attachment').addClass('is-valid');
+            $('#streamPreview').attr('src', event.target.value.split('watch?v=').join('embed/'));
+        } else {
+            $('#link_attachment').addClass('is-invalid');
+            $('#link_attachment').removeClass('is-valid');
+            $('#streamPreview').attr('src', '');
         }
     });
 
@@ -35,6 +52,24 @@
             }
         })
     });
+
+    function showFormLink(element) {
+        if (element.checked) {
+            $('#upload_attachment_form').addClass('d-none');
+            $('#link_attachment_form').removeClass('d-none');
+            $('#documentInput').val('');
+            $('#link_attachment').val('');
+            $('#documentInput').attr('required', false);
+            $('#link_attachment').attr('required', true);
+        } else {
+            $('#link_attachment_form').addClass('d-none');
+            $('#upload_attachment_form').removeClass('d-none');
+            $('#link_attachment').val('');
+            $('#documentInput').val('');
+            $('#link_attachment').attr('required', false);
+            $('#documentInput').attr('required', true);
+        }
+    }
 
     function dataTable() {
         const url = $('#datatable-url').val();

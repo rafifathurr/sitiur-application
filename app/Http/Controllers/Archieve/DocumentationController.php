@@ -58,7 +58,11 @@ class DocumentationController extends Controller
                 $btn_action = '<a href="' . route('archieve.documentation.show', ['id' => $data->id]) . '" class="btn btn-sm btn-primary rounded-5 ml-2 mb-1" title="Detail"><i class="fas fa-eye"></i></a>';
                 $btn_action .= '<a href="' . route('archieve.documentation.edit', ['id' => $data->id]) . '" class="btn btn-sm btn-warning rounded-5 ml-2 mb-1" title="Ubah"><i class="fas fa-pencil-alt"></i></a>';
                 $btn_action .= '<button class="btn btn-sm btn-danger rounded-5 ml-2 mb-1" onclick="destroyRecord(' . $data->id . ')" title="Hapus"><i class="fas fa-trash"></i></button>';
-                $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Video" download><i class="fas fa-paperclip"></i></a>';
+
+                if (!is_null($data->attachment)) {
+                    $btn_action .= '<a target="_blank" href="' . asset($data->attachment) . '" class="btn btn-sm btn-info rounded-5 ml-2 mb-1" title="Lampiran Video" download><i class="fas fa-paperclip"></i></a>';
+                }
+
                 return $btn_action;
             })
             ->only(['date', 'institution', 'name', 'action'])
@@ -78,7 +82,6 @@ class DocumentationController extends Controller
             $request->validate([
                 'name' => 'required',
                 'date' => 'required',
-                'attachment' => 'required',
             ]);
 
             DB::beginTransaction();
@@ -95,30 +98,59 @@ class DocumentationController extends Controller
 
             // Checking Store Data
             if ($documentation) {
-                // Image Path
-                $path = 'public/archieve/documentation';
-                $path_store = 'storage/archieve/documentation';
+                if (!isset($request->has_link_attachment)) {
+                    // Image Path
+                    $path = 'public/archieve/documentation';
+                    $path_store = 'storage/archieve/documentation';
 
-                // Check Exsisting Path
-                if (!Storage::exists($path)) {
-                    // Create new Path Directory
-                    Storage::makeDirectory($path);
-                }
+                    // Check Exsisting Path
+                    if (!Storage::exists($path)) {
+                        // Create new Path Directory
+                        Storage::makeDirectory($path);
+                    }
 
-                // File Upload Configuration
-                $exploded_name = explode(' ', strtolower($request->name));
-                $file_name_config = implode('_', $exploded_name);
-                $file = $request->file('attachment');
-                $file_name = $documentation->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
+                    // File Upload Configuration
+                    $exploded_name = explode(' ', strtolower($request->name));
+                    $file_name_config = implode('_', $exploded_name);
+                    $file = $request->file('attachment');
+                    $file_name = $documentation->id . '_' . $file_name_config . '.' . $file->getClientOriginalExtension();
 
-                // Uploading File
-                $file->storePubliclyAs($path, $file_name);
+                    // Uploading File
+                    $file->storePubliclyAs($path, $file_name);
 
-                // Check Upload Success
-                if (Storage::exists($path . '/' . $file_name)) {
+                    // Check Upload Success
+                    if (Storage::exists($path . '/' . $file_name)) {
+                        // Update Record for Attachment
+                        $documentation_update = Documentation::where('id', $documentation->id)->update([
+                            'attachment' => $path_store . '/' . $file_name,
+                        ]);
+
+                        // Validation Update Attachment Menu Record
+                        if ($documentation_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.documentation.show', ['id' => $documentation->id])
+                                ->with(['success' => 'Berhasil Menambahkan Dokumentasi Video']);
+                        } else {
+                            // Failed and Rollback
+                            DB::rollBack();
+                            return redirect()
+                                ->back()
+                                ->with(['failed' => 'Gagal Update Lampiran Dokumentasi Video'])
+                                ->withInput();
+                        }
+                    } else {
+                        // Failed and Rollback
+                        DB::rollBack();
+                        return redirect()
+                            ->back()
+                            ->with(['failed' => 'Gagal Upload Lampiran Dokumentasi Video'])
+                            ->withInput();
+                    }
+                } else {
                     // Update Record for Attachment
                     $documentation_update = Documentation::where('id', $documentation->id)->update([
-                        'attachment' => $path_store . '/' . $file_name,
+                        'link_attachment' => $request->link_attachment,
                     ]);
 
                     // Validation Update Attachment Menu Record
@@ -135,13 +167,6 @@ class DocumentationController extends Controller
                             ->with(['failed' => 'Gagal Update Lampiran Dokumentasi Video'])
                             ->withInput();
                     }
-                } else {
-                    // Failed and Rollback
-                    DB::rollBack();
-                    return redirect()
-                        ->back()
-                        ->with(['failed' => 'Gagal Upload Lampiran Dokumentasi Video'])
-                        ->withInput();
                 }
             } else {
                 // Failed and Rollback
@@ -217,11 +242,11 @@ class DocumentationController extends Controller
 
             // Checking Store Data
             if ($documentation_update) {
+                // Get Documentation Record
+                $documentation = Documentation::find($id);
+
                 // Check Has Request File
                 if (!empty($request->allFiles())) {
-                    // Get Documentation Record
-                    $documentation = Documentation::find($id);
-
                     // Image Path
                     $path = 'public/archieve/documentation';
                     $path_store = 'storage/archieve/documentation';
@@ -257,6 +282,7 @@ class DocumentationController extends Controller
                         // Update Record for Attachment
                         $documentation_attachment_update = $documentation->update([
                             'attachment' => $path_store . '/' . $file_name,
+                            'link_attachment' => null,
                         ]);
 
                         // Validation Update Attachment Menu Record
@@ -282,10 +308,33 @@ class DocumentationController extends Controller
                             ->withInput();
                     }
                 } else {
-                    DB::commit();
-                    return redirect()
-                        ->route('archieve.documentation.show', ['id' => $id])
-                        ->with(['success' => 'Berhasil Perbarui Dokumentasi Video']);
+                    if (isset($request->has_link_attachment)) {
+                        // Update Record for Attachment
+                        $documentation_update = $documentation->update([
+                            'attachment' => null,
+                            'link_attachment' => $request->link_attachment,
+                        ]);
+
+                        // Validation Update Attachment Menu Record
+                        if ($documentation_update) {
+                            DB::commit();
+                            return redirect()
+                                ->route('archieve.documentation.show', ['id' => $documentation->id])
+                                ->with(['success' => 'Berhasil Menambahkan Dokumentasi Video']);
+                        } else {
+                            // Failed and Rollback
+                            DB::rollBack();
+                            return redirect()
+                                ->back()
+                                ->with(['failed' => 'Gagal Update Lampiran Dokumentasi Video'])
+                                ->withInput();
+                        }
+                    } else {
+                        DB::commit();
+                        return redirect()
+                            ->route('archieve.documentation.show', ['id' => $id])
+                            ->with(['success' => 'Berhasil Perbarui Dokumentasi Video']);
+                    }
                 }
             } else {
                 // Failed and Rollback
